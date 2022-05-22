@@ -14,7 +14,7 @@ def download_subtitles_for_season(series, season, num_episode):
     marker_file = '%s/%s_S%s' % (DIR, series, season)
     print("Getting %s" % marker_file)
     if os.path.isfile(marker_file):
-        return None
+        return
 
     start_time = time.time()
 
@@ -30,8 +30,6 @@ def download_subtitles_for_season(series, season, num_episode):
     subtitles_found = len([s for s in subtitles.values() if s])
     with open(marker_file, 'w'):
         print("Found %d subtitles in %fs" % (subtitles_found, time.time() - start_time))
-    
-    return subtitles_found
 
 def get_top_tv_show_subtitles():
     for i in range(100):
@@ -45,8 +43,5 @@ def get_top_tv_show_subtitles():
             for s, season in enumerate(tv_show['seasons']):
                 # +1 as seasons and episodes are generally 1 indexed
                 found_subs = download_subtitles_for_season(tv_show['name'], s + 1, season['episode_count'])
-                # if subs aren't found for one season, skip the rest of the seasons
-                if found_subs and found_subs == 0:
-                    continue
 
 get_top_tv_show_subtitles()
