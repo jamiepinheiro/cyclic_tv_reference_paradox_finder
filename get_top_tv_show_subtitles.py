@@ -1,5 +1,6 @@
 import requests
 import os
+import time
 from babelfish import Language
 from subliminal import download_best_subtitles, Episode
 
@@ -8,20 +9,27 @@ POPULAR_TV_SHOWS_URL = 'https://api.themoviedb.org/3/tv/popular'
 TV_URL = 'https://api.themoviedb.org/3/tv/%s'
 DIR = 'subtitles'
 
-def download_subtitles(series, season, episode):
-    file_name = '%s/%s_S%s_E%s.srt' % (DIR, series, season, episode)
-    print("Getting %s" % file_name)
-    if os.path.isfile(file_name):
+def download_subtitles_for_season(series, season, num_episode):
+    # avoid redownloading if done already present
+    marker_file = '%s/%s_S%s' % (DIR, series, season)
+    print("Getting %s" % marker_file)
+    if os.path.isfile(marker_file):
         return
 
-    video = Episode(series, series, season, episode)
+    start_time = time.time()
+
+    videos = set([Episode(series, series, season, e + 1) for e in range(num_episode)])
     languages = {Language('eng')}
-    subtitles = download_best_subtitles(set([video]), languages)
-    for subtitle in subtitles.values():
-        with open(file_name, 'wb') as f:
-            if subtitle:
-                print("Found")
-                f.write(subtitle[0].content)
+    subtitles = download_best_subtitles(videos, languages)
+    for video, subs in subtitles.items():
+        file_name = '%s/%s_S%s_E%s.srt' % (DIR, series, season, video.episode)
+        if subs:
+            with open(file_name, 'wb') as f:
+                f.write(subs[0].content)
+
+    with open(marker_file, 'w'):
+        print("Found %d subtitles in %fs" % (len([s for s in subtitles.values() if s]), time.time() - start_time))
+        return
 
 def get_top_tv_show_subtitles():
     for i in range(100):
@@ -33,8 +41,7 @@ def get_top_tv_show_subtitles():
             r = requests.get(url = TV_URL % tv_show['id'], params = params)
             tv_show = r.json()
             for s, season in enumerate(tv_show['seasons']):
-                for e in range(season['episode_count']):
-                    # +1 as seasons and episodes are generally 1 indexed
-                    download_subtitles(tv_show['name'], s + 1, e + 1)
+                # +1 as seasons and episodes are generally 1 indexed
+                download_subtitles_for_season(tv_show['name'], s + 1, season['episode_count'])
 
 get_top_tv_show_subtitles()
