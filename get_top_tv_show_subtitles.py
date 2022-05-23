@@ -7,11 +7,11 @@ from subliminal import download_best_subtitles, Episode
 TMDB_API_KEY = os.environ['TMDB_API_KEY']
 POPULAR_TV_SHOWS_URL = 'https://api.themoviedb.org/3/tv/popular' 
 TV_URL = 'https://api.themoviedb.org/3/tv/%s'
-DIR = 'subtitles'
+SUBTITLE_DIR = 'subtitles'
 
 def download_subtitles_for_season(series, season, num_episode):
     # avoid redownloading if done already present
-    marker_file = '%s/%s_S%s' % (DIR, series, season)
+    marker_file = '%s/%s_S%s' % (SUBTITLE_DIR, series, season)
     print("Getting %s" % marker_file)
     if os.path.isfile(marker_file):
         return None
@@ -22,7 +22,7 @@ def download_subtitles_for_season(series, season, num_episode):
     languages = {Language('eng')}
     subtitles = download_best_subtitles(videos, languages)
     for video, subs in subtitles.items():
-        file_name = '%s/%s_S%s_E%s.srt' % (DIR, series, season, video.episode)
+        file_name = '%s/%s_S%s_E%s.srt' % (SUBTITLE_DIR, series, season, video.episode)
         if subs:
             with open(file_name, 'wb') as f:
                 f.write(subs[0].content)
@@ -48,5 +48,8 @@ def get_top_tv_show_subtitles():
                 # if subs aren't found for one season, skip the rest of the seasons
                 if found_subs != None and found_subs == 0:
                     break
+
+if not os.path.exists(SUBTITLE_DIR):
+    os.mkSUBTITLE_DIR(SUBTITLE_DIR)
 
 get_top_tv_show_subtitles()
