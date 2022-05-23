@@ -1,10 +1,8 @@
 import pysrt
 import os
 from whoosh import index
-from whoosh.fields import Schema, TEXT, NUMERIC
+from whoosh.fields import Schema, TEXT, STORED, ID
 from whoosh.analysis import FancyAnalyzer
-
-from whoosh.qparser import QueryParser
 
 SUBTITLES_DIR = 'subtitles'
 INDEX_DIR = 'index'
@@ -22,12 +20,12 @@ def get_index():
         os.mkdir(INDEX_DIR)
 
         schema = Schema(
-                    title=TEXT(stored=True),
-                    season=TEXT(stored=True),
-                    episode=TEXT(stored=True),
+                    title=ID(stored=True),
+                    season=STORED,
+                    episode=STORED,
                     text=TEXT(stored=True, phrase=True, analyzer=FancyAnalyzer()),
-                    start_time=TEXT(stored=True),
-                    end_time=TEXT(stored=True)
+                    start_time=STORED,
+                    end_time=STORED
                 )
         return index.create_in(INDEX_DIR, schema)
 
@@ -41,7 +39,7 @@ def write_srt_to_index(ix, srt):
     if os.path.isfile(marker_file):
         return
 
-    srt_name_sections = srt.split('_')
+    srt_name_sections = srt.replace('.srt', '').split('_')
     subs = pysrt.open(srt_file, encoding='iso-8859-1')
 
     writer = ix.writer()
