@@ -49,7 +49,10 @@ def get_top_tv_show_subtitles():
                 if found_subs != None and found_subs == 0:
                     break
 
-if not os.path.exists(SUBTITLE_DIR):
-    os.mkSUBTITLE_DIR(SUBTITLE_DIR)
+def main():
+    if not os.path.exists(SUBTITLE_DIR):
+        os.mkSUBTITLE_DIR(SUBTITLE_DIR)
 
-get_top_tv_show_subtitles()
+    get_top_tv_show_subtitles()
+
+main()
