@@ -37,7 +37,7 @@ def write_srt_to_index(ix, srt):
     # check if already added to index
     marker_file = '%s/%s' % (INDEX_MARKER_DIR, srt)
     if os.path.isfile(marker_file):
-        return
+        return False
 
     srt_name_sections = srt.replace('.srt', '').split('_')
     subs = pysrt.open(srt_file, encoding='iso-8859-1')
@@ -55,13 +55,17 @@ def write_srt_to_index(ix, srt):
     writer.commit()
 
     with open(marker_file, 'wb') as f:
-        return
+        return True
 
 def main():
     ix = get_index()
 
-    for file in os.listdir(SUBTITLES_DIR):
-        if '.srt' in file:
-            write_srt_to_index(ix, file)
+    newFile = True
+    while newFile:
+        newFile = False
+        for file in os.listdir(SUBTITLES_DIR):
+            if '.srt' in file:
+                updated = write_srt_to_index(ix, file)
+                newFile = newFile or updated
 
 main()

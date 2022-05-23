@@ -14,7 +14,7 @@ def download_subtitles_for_season(series, season, num_episode):
     marker_file = '%s/%s_S%s' % (SUBTITLE_DIR, series, season)
     print("Getting %s" % marker_file)
     if os.path.isfile(marker_file):
-        return None
+        return
 
     start_time = time.time()
 
@@ -30,11 +30,9 @@ def download_subtitles_for_season(series, season, num_episode):
     subtitles_found = len([s for s in subtitles.values() if s])
     with open(marker_file, 'w'):
         print("Found %d subtitles in %fs" % (subtitles_found, time.time() - start_time))
-    
-    return subtitles_found
 
 def get_top_tv_show_subtitles():
-    for i in range(100):
+    for i in range(1000000):
         params = {'api_key' : TMDB_API_KEY, 'language': 'en-US', 'page': i + 1}
         r = requests.get(url = POPULAR_TV_SHOWS_URL, params = params)
         popular_tv_show = r.json()
@@ -45,9 +43,6 @@ def get_top_tv_show_subtitles():
             for s, season in enumerate(tv_show['seasons']):
                 # +1 as seasons and episodes are generally 1 indexed
                 found_subs = download_subtitles_for_season(tv_show['name'], s + 1, season['episode_count'])
-                # if subs aren't found for one season, skip the rest of the seasons
-                if found_subs != None and found_subs == 0:
-                    break
 
 def main():
     if not os.path.exists(SUBTITLE_DIR):
