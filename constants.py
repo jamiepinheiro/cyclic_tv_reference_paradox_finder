@@ -4,6 +4,8 @@ SUBTITLES_DIR = 'subtitles'
 INDEX_DIR = 'index'
 INDEX_MARKER_DIR = 'index_marker'
 REFERENCE_GRAPH = 'reference_graph'
+REFERENCES_CSV = 'references.csv'
+REFERENCES_DENYLIST_CSV = 'references_denylist.csv' 
 
 # Show name is too common, will be used not as a reference, restrict which shows can be 'referenced'
 TV_SHOW_DENYLIST = set([
@@ -52,5 +54,28 @@ TV_SHOW_DENYLIST = set([
 'Loki',
 'Scorpion',
 'One Piece',
-'Invasion'
+'Invasion',
+'FBI',
+'Naomi',
+'The Return',
+'Dark',
+'The A-Team',
+'Once Upon a Time',
+'Arrow',
+'Dark',
+'The Boat',
+'Chicago Med',
+'Night Sky',
+'BAKI',
+'The Resident',
+'Ragnarok',
+'Record of Ragnarok',
+'Titans',
+'Foundation',
+'Happiness'
 ])
+
+# Shows are part of the same 'universe', not really referencing eachother
+UNIVERSES = [
+    set(['Naruto', 'Naruto Shippūden'])
+]

@@ -7,3 +7,5 @@ index_marker/*
 
 __pycache__
 __pycache__/*
+references.csv
+reference_graph
