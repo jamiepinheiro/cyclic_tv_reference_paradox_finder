@@ -69,13 +69,6 @@ class Graph:
         ix = index.open_dir(INDEX_DIR)
         qp = QueryParser('text', schema=ix.schema)
 
-        reference_denylist = set()
-        with open(REFERENCES_DENYLIST_CSV, 'r') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                reference_denylist.add(Reference(*row))
-        
-
         for title, node in self.nodes.items():
             if title in TV_SHOW_DENYLIST:
                 continue 
@@ -89,39 +82,51 @@ class Graph:
                 results = searcher.search(q, limit=None, mask=restrict_q)
                 for r in results:
                     reference = Reference(title, r['title'], r['season'], r['episode'], r['text'], r['start_time'], r['end_time'])
-                    if not reference.is_intrauniverse_reference() and reference not in reference_denylist:
-                        node.references.append(reference)
+                    node.references.append(reference)
 
             print(len(node.references))
 
     def write_references_to_csv(self):
+        reference_denylist = set()
+        with open(REFERENCES_DENYLIST_CSV, 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                reference_denylist.add(Reference)
+
         with open(REFERENCES_CSV, 'w') as f:
             writer = csv.writer(f)
             writer.writerow(Reference.CSV_HEADER)
             for n in self.nodes.values():
                 for r in n.references:
-                    writer.writerow(r.to_csv_row())
+                    if not r.reference_title in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
+                        writer.writerow(r.to_csv_row())
 
 def find_cycles_in_graph():
-    g = None
-
-    with open(REFERENCE_GRAPH, 'r') as f:
-        g = jsonpickle.decode(f.read())
+    g = Graph()
+    with open(REFERENCES_CSV, 'r') as f:
+        reader = csv.reader(f)
+        for i, row in enumerate(reader):
+            if i == 0:
+                continue
+            r = Reference(*row)
+            g.nodes[r.reference_title].references.append(r)
 
     def DFS(node, visited):
         if node.references:
             for r in node.references:
-                cycle = r.title in [v.title for v in visited]
+                cycle = r.title in [v.reference_title for v in visited]
                 visited.append(r)
                 if not cycle:
                     DFS(g.nodes[r.title], visited)
-                elif len(visited) == 5:
+                else:
                     print('CYCLE')
-                    for v in reversed(visited):
+                    for i, v in enumerate(reversed(visited)):
+                        if i != 0 and v.title == r.title:
+                            break
                         print(" -       %s: %s" % (v.title, v.text))
                 visited.pop(-1)
 
-    for n in g.nodes:
+    for n in g.nodes.values():
         DFS(n, [])
 
 def main():
@@ -137,4 +142,7 @@ def main():
             g = jsonpickle.decode(f.read())
 
     g.write_references_to_csv()
+
+    find_cycles_in_graph()
+
 main()

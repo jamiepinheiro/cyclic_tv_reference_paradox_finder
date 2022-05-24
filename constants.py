@@ -72,10 +72,26 @@ TV_SHOW_DENYLIST = set([
 'Record of Ragnarok',
 'Titans',
 'Foundation',
-'Happiness'
+'Happiness',
+'9-1-1: Lone Star',
+'Insatiable',
+'FBI: Most Wanted',
+'The Originals',
+'Tomorrow',
+'Invincible',
+'Monk',
+'Seal team',
+'Bosch',
+'Scrubs',
+'Yellowstone',
+'Chicago Fire',
 ])
 
 # Shows are part of the same 'universe', not really referencing eachother
 UNIVERSES = [
-    set(['Naruto', 'Naruto Shippūden'])
+    set(['Naruto', 'Naruto Shippūden']),
+    set(['The Book of Boba Fett', 'The Mandalorian']),
+    set(['Gotham', 'The Flash', 'Titans', 'Arrow', 'Supergirl', 'Superman & Lois', 'DC\'s Legends of Tomorrow', 'Smallville']),
+    set(['Fear the Walking Dead', 'The Walking Dead']),
+    set(['The Simpsons', 'Family Guy'])
 ]
