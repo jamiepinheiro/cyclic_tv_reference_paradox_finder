@@ -1,0 +1,4 @@
+whoosh
+requests
+babelfish
+subliminal

@@ -1,13 +1,11 @@
 import requests
 import os
 import time
+from constants import SUBTITLE_DIR, TV_URL, POPULAR_TV_SHOWS_URL
 from babelfish import Language
 from subliminal import download_best_subtitles, Episode
 
 TMDB_API_KEY = os.environ['TMDB_API_KEY']
-POPULAR_TV_SHOWS_URL = 'https://api.themoviedb.org/3/tv/popular' 
-TV_URL = 'https://api.themoviedb.org/3/tv/%s'
-SUBTITLE_DIR = 'subtitles'
 
 def download_subtitles_for_season(series, season, num_episode):
     # avoid redownloading if done already present

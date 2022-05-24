@@ -1,0 +1,5 @@
+POPULAR_TV_SHOWS_URL = 'https://api.themoviedb.org/3/tv/popular' 
+TV_URL = 'https://api.themoviedb.org/3/tv/%s'
+SUBTITLE_DIR = 'subtitles'
+INDEX_DIR = 'index'
+INDEX_MARKER_DIR = 'index_marker'

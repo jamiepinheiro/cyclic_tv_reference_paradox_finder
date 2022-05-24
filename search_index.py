@@ -1,8 +1,7 @@
 import sys
+from constants import INDEX_DIR
 from whoosh import index
 from whoosh.qparser import QueryParser, query
-
-INDEX_DIR = 'index'
 
 def main():
     ix = index.open_dir(INDEX_DIR)

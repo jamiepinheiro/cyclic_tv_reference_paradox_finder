@@ -1,12 +1,9 @@
 import pysrt
 import os
+from constants import SUBTITLE_DIR
 from whoosh import index
 from whoosh.fields import Schema, TEXT, STORED, ID
 from whoosh.analysis import FancyAnalyzer
-
-SUBTITLES_DIR = 'subtitles'
-INDEX_DIR = 'index'
-INDEX_MARKER_DIR = 'index_marker'
 
 def get_index():
     if not os.path.exists(INDEX_MARKER_DIR):
