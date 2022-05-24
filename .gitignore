@@ -4,3 +4,6 @@ index
 index/*
 index_marker
 index_marker/*
+
+__pycache__
+__pycache__/*

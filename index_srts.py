@@ -1,9 +1,8 @@
-import pysrt
 import os
-from constants import SUBTITLE_DIR
+from constants import SUBTITLES_DIR, INDEX_DIR, INDEX_MARKER_DIR
+import pysrt
 from whoosh import index
 from whoosh.fields import Schema, TEXT, STORED, ID
-from whoosh.analysis import FancyAnalyzer
 
 def get_index():
     if not os.path.exists(INDEX_MARKER_DIR):
@@ -20,7 +19,7 @@ def get_index():
                     title=ID(stored=True),
                     season=STORED,
                     episode=STORED,
-                    text=TEXT(stored=True, phrase=True, analyzer=FancyAnalyzer()),
+                    text=TEXT(stored=True, phrase=True),
                     start_time=STORED,
                     end_time=STORED
                 )

@@ -1,7 +1,7 @@
 import requests
 import os
 import time
-from constants import SUBTITLE_DIR, TV_URL, POPULAR_TV_SHOWS_URL
+from constants import SUBTITLES_DIR, TV_URL, POPULAR_TV_SHOWS_URL
 from babelfish import Language
 from subliminal import download_best_subtitles, Episode
 
@@ -9,7 +9,7 @@ TMDB_API_KEY = os.environ['TMDB_API_KEY']
 
 def download_subtitles_for_season(series, season, num_episode):
     # avoid redownloading if done already present
-    marker_file = '%s/%s_S%s' % (SUBTITLE_DIR, series, season)
+    marker_file = '%s/%s_S%s' % (SUBTITLES_DIR, series, season)
     print("Getting %s" % marker_file)
     if os.path.isfile(marker_file):
         with open(marker_file, 'r') as f:
@@ -21,7 +21,7 @@ def download_subtitles_for_season(series, season, num_episode):
     languages = {Language('eng')}
     subtitles = download_best_subtitles(videos, languages)
     for video, subs in subtitles.items():
-        file_name = '%s/%s_S%s_E%s.srt' % (SUBTITLE_DIR, series, season, video.episode)
+        file_name = '%s/%s_S%s_E%s.srt' % (SUBTITLES_DIR, series, season, video.episode)
         if subs:
             with open(file_name, 'wb') as f:
                 f.write(subs[0].content)
@@ -41,15 +41,16 @@ def get_top_tv_show_subtitles():
             params = {'api_key' : TMDB_API_KEY}
             r = requests.get(url = TV_URL % tv_show['id'], params = params)
             tv_show = r.json()
+            name = tv_show['name'].replace('/', ' ')
             for s, season in enumerate(tv_show['seasons']):
                 # +1 as seasons and episodes are generally 1 indexed
-                subs_found = download_subtitles_for_season(tv_show['name'], s + 1, season['episode_count'])
+                subs_found = download_subtitles_for_season(name, s + 1, season['episode_count'])
                 if not subs_found:
                     break 
 
 def main():
-    if not os.path.exists(SUBTITLE_DIR):
-        os.mkSUBTITLE_DIR(SUBTITLE_DIR)
+    if not os.path.exists(SUBTITLES_DIR):
+        os.mkSUBTITLES_DIR(SUBTITLES_DIR)
 
     get_top_tv_show_subtitles()
 
