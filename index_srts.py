@@ -1,4 +1,5 @@
 import os
+import time
 from constants import SUBTITLES_DIR, INDEX_DIR, INDEX_MARKER_DIR
 import pysrt
 from whoosh import index
@@ -56,12 +57,15 @@ def write_srt_to_index(ix, srt):
 def main():
     ix = get_index()
 
-    newFile = True
-    while newFile:
+    while True:
         newFile = False
         for file in os.listdir(SUBTITLES_DIR):
             if '.srt' in file:
                 updated = write_srt_to_index(ix, file)
                 newFile = newFile or updated
+
+        if not newFile:
+            print('No new files, sleeping...')
+            time.sleep(60)
 
 main()
