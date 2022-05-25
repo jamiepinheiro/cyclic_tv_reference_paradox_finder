@@ -91,7 +91,7 @@ class Graph:
         with open(REFERENCES_DENYLIST_CSV, 'r') as f:
             reader = csv.reader(f)
             for row in reader:
-                reference_denylist.add(Reference)
+                reference_denylist.add(Reference(*row))
 
         with open(REFERENCES_CSV, 'w') as f:
             writer = csv.writer(f)
@@ -119,11 +119,11 @@ def find_cycles_in_graph():
                 if not cycle:
                     DFS(g.nodes[r.title], visited)
                 else:
-                    print('CYCLE')
+                    print('___')
                     for i, v in enumerate(reversed(visited)):
                         if i != 0 and v.title == r.title:
                             break
-                        print(" -       %s: %s" % (v.title, v.text))
+                        print("\t{: >20} {: >3}{: >3} {: >20}:\t{text}".format(v.title, v.season, v.episode, v.start_time, text = v.text))
                 visited.pop(-1)
 
     for n in g.nodes.values():
