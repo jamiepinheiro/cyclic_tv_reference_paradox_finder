@@ -1,5 +1,5 @@
 import { TvShow } from "./TvShow";
 
-export interface Graph {
+export type Graph = {
     tvShows: Map<string, TvShow>
 }

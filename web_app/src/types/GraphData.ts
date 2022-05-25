@@ -1,13 +1,13 @@
-export interface Node {
+export type Node = {
     id: string;
 }
 
-export interface Link {
+export type Link = {
     source: string
     target: string
 }
 
-export interface GraphData {
+export type GraphData = {
     nodes: Node[];
     links: Link[];
 }

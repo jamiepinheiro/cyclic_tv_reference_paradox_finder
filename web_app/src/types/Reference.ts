@@ -1,4 +1,4 @@
-export interface Reference {
+export type Reference = {
     reference_title: string;
     title: string,
     season: string,
