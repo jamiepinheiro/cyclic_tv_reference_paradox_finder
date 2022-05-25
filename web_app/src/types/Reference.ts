@@ -3,6 +3,6 @@ export interface Reference {
     title: string,
     season: string,
     episode: string,
-    start_time: string,
-    end_time: string
+    startTime: string,
+    endTime: string
 }

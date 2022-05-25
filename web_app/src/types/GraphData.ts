@@ -1,8 +1,5 @@
-import { Reference } from "./Reference";
-
 export interface Node {
     id: string;
-    name: string;
 }
 
 export interface Link {

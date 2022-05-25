@@ -1,36 +1,44 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Papa from "papaparse";
 import { Spinner } from "react-bootstrap";
 import { Reference } from "./types/Reference";
 import { GraphData, Link, Node } from "./types/GraphData";
-import Background from "./components/Background";
+import GraphVisual from "./components/GraphVisual";
 import { Graph } from "./types/Graph";
 import { TvShow } from "./types/TvShow";
+import Selected from "./components/Selected";
+
+const DEFAULT_NODE_SIZE = 1;
+const BIG_NODE_SIZE = 10;
 
 function App() {
   const [graph, setGraph] = useState<Graph | null>(null);
+  const [graphData, setGraphData] = useState<GraphData | null>(null);
+  const [tvShowSelected, setTvShowSelected] = useState<TvShow | null>(null);
 
   useEffect(() => {
     function buildGraphFromReferences(references: Reference[]) {
-      const graph = { tvShows: new Map() };
+      const tvShows = new Map<string, TvShow>();
       references.forEach(r => {
-        const tvShows: TvShow[] = [r.title, r.reference_title].map(title => {
-          if (graph.tvShows.has(title)) {
-            return graph.tvShows.get(title);
+        const shows: TvShow[] = [r.title, r.reference_title].map(title => {
+          if (tvShows.has(title)) {
+            return tvShows.get(title)!;
           } else {
-            const tvShow = graph.tvShows.get(title) ?? {
+            const tvShow: TvShow = tvShows.get(title) ?? {
               title,
               referencesTo: new Map(),
-              referencedBy: new Map()
+              referencedBy: new Map(),
+              node: {
+                id: title
+              }
             };
-            graph.tvShows.set(title, tvShow);
+            tvShows.set(title, tvShow);
             return tvShow;
           }
         });
 
-        const refereeTvShow = tvShows[0];
-        const referenceTvShow = tvShows[1];
-        console.log(refereeTvShow);
+        const refereeTvShow = shows[0];
+        const referenceTvShow = shows[1];
 
         if (!refereeTvShow.referencesTo.has(r.reference_title)) {
           refereeTvShow.referencesTo.set(r.reference_title, []);
@@ -42,7 +50,25 @@ function App() {
         }
         referenceTvShow.referencedBy.get(r.title)!.push(r);
       });
-      return graph;
+
+      const nodes: Node[] = Array.from(tvShows.values()).map(
+        tvShow => tvShow.node
+      );
+
+      const links: Link[] = [];
+      Array.from(tvShows.values()).forEach(tvShow => {
+        Array.from(tvShow.referencesTo.keys()).forEach(
+          (referenceTvShowTitle: string) => {
+            links.push({
+              source: tvShow.title,
+              target: referenceTvShowTitle
+            });
+          }
+        );
+      });
+
+      setGraph({ tvShows });
+      setGraphData({ nodes, links });
     }
 
     const buildGraph = async () => {
@@ -50,42 +76,53 @@ function App() {
         download: true,
         header: true,
         complete: results => {
-          const graph = buildGraphFromReferences(results.data);
-          setGraph(graph);
+          buildGraphFromReferences(results.data);
         }
       });
     };
     buildGraph();
   }, []);
 
-  function getGraphData(graph: Graph) {
-    const nodes: Node[] = Array.from(graph.tvShows.keys()).map(title => {
-      return { id: title, name: title };
-    });
+  const onNodeClick = useCallback(
+    (title: string) => {
+      setTvShowSelected(graph!.tvShows.get(title)!);
+    },
+    [tvShowSelected, graph]
+  );
 
-    const links: Link[] = [];
-
-    Array.from(graph.tvShows.values()).forEach(tvShow => {
-      Array.from(tvShow.referencesTo.keys()).forEach(referenceTvShowTitle => {
-        links.push({
-          source: tvShow.title,
-          target: referenceTvShowTitle
-        });
-      });
-    });
-
-    return { nodes, links };
-  }
+  const clearClick = useCallback(() => {
+    setTvShowSelected(null);
+  }, [tvShowSelected]);
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
-      {!graph ? (
+      {!graph || !graphData ? (
         <div className="text-center">
           <Spinner animation="border" />
           <p className="m-3">Loading references</p>
         </div>
       ) : (
-        <Background graphData={getGraphData(graph)} />
+        <>
+          <div className="foreground">
+            <Selected tvShowSelected={tvShowSelected} />
+          </div>
+          <div className="background">
+            <GraphVisual
+              graphData={graphData}
+              onNodeClick={onNodeClick}
+              clearClick={clearClick}
+              selectedNode={
+                !tvShowSelected
+                  ? null
+                  : {
+                      node: tvShowSelected.node.id,
+                      ancestors: new Set(tvShowSelected.referencedBy.keys()),
+                      descendants: new Set(tvShowSelected.referencesTo.keys())
+                    }
+              }
+            />
+          </div>
+        </>
       )}
     </div>
   );
