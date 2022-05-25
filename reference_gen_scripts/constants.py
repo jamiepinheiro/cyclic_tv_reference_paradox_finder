@@ -1,11 +1,11 @@
-POPULAR_TV_SHOWS_URL = 'https://api.themoviedb.org/3/tv/popular' 
+POPULAR_TV_SHOWS_URL = 'https://api.themoviedb.org/3/tv/popular'
 TV_URL = 'https://api.themoviedb.org/3/tv/%s'
 SUBTITLES_DIR = 'subtitles'
 INDEX_DIR = 'index'
 INDEX_MARKER_DIR = 'index_marker'
 REFERENCE_GRAPH = 'reference_graph'
 REFERENCES_CSV = 'references.csv'
-REFERENCES_DENYLIST_CSV = 'references_denylist.csv' 
+REFERENCES_DENYLIST_CSV = 'references_denylist.csv'
 
 # Show name is too common, will be used not as a reference, restrict which shows can be 'referenced'
 TV_SHOW_DENYLIST = set([
@@ -107,7 +107,8 @@ TV_SHOW_DENYLIST = set([
 UNIVERSES = [
     set(['Naruto', 'Naruto Shippūden']),
     set(['The Book of Boba Fett', 'The Mandalorian']),
-    set(['Gotham', 'The Flash', 'Titans', 'Arrow', 'Supergirl', 'Superman & Lois', 'DC\'s Legends of Tomorrow', 'Smallville', 'Peacemaker', 'Teen Titans Go!']),
+    set(['Gotham', 'The Flash', 'Titans', 'Arrow', 'Supergirl', 'Superman & Lois',
+        'DC\'s Legends of Tomorrow', 'Smallville', 'Peacemaker', 'Teen Titans Go!']),
     set(['Fear the Walking Dead', 'The Walking Dead']),
     set(['The Simpsons', 'Family Guy', 'Bob\'s Burgers']),
     set(['Ben 10', 'Ben 10: Ultimate Alien']),
@@ -115,5 +116,5 @@ UNIVERSES = [
     set(['The Big Bang Theory', 'Young Sheldon']),
     set(['Dragon Ball Super', 'Dragon Ball Absalon', 'Dragon Ball Z']),
     set(['Better Call Saul', 'Breaking Bad']),
-    set(['Halo: Nightfall' ,'Halo']),
+    set(['Halo: Nightfall', 'Halo']),
 ]

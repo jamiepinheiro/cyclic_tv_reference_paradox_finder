@@ -5,6 +5,7 @@ from constants import SUBTITLES_DIR, INDEX_DIR, REFERENCE_GRAPH, TV_SHOW_DENYLIS
 from whoosh import index
 from whoosh.qparser import QueryParser, query
 
+
 class Reference:
     def __init__(self, reference_title, title, season, episode, text, start_time, end_time):
         self.reference_title = reference_title
@@ -32,7 +33,8 @@ class Reference:
     def __hash__(self):
         return hash(''.join(self.to_csv_row()))
 
-    CSV_HEADER = ['reference_title', 'title', 'season', 'episode', 'text', 'start_time', 'end_time']
+    CSV_HEADER = ['reference_title', 'title', 'season',
+                  'episode', 'text', 'start_time', 'end_time']
 
     def to_csv_row(self):
         return [
@@ -51,10 +53,12 @@ class Reference:
                 return True
         return False
 
+
 class Node:
     def __init__(self, title):
         self.title = title
         self.references = []
+
 
 class Graph:
     def __init__(self):
@@ -64,14 +68,14 @@ class Graph:
             if '.srt' in file:
                 title = file.split('_')[0]
                 self.nodes[title] = Node(title)
-        
+
     def find_references(self):
         ix = index.open_dir(INDEX_DIR)
         qp = QueryParser('text', schema=ix.schema)
 
         for title, node in self.nodes.items():
             if title in TV_SHOW_DENYLIST:
-                continue 
+                continue
             print('Finding references for %s' % title)
             q = qp.parse('"%s"' % title)
 
@@ -81,7 +85,8 @@ class Graph:
             with ix.searcher() as searcher:
                 results = searcher.search(q, limit=None, mask=restrict_q)
                 for r in results:
-                    reference = Reference(title, r['title'], r['season'], r['episode'], r['text'], r['start_time'], r['end_time'])
+                    reference = Reference(
+                        title, r['title'], r['season'], r['episode'], r['text'], r['start_time'], r['end_time'])
                     node.references.append(reference)
 
             print(len(node.references))
@@ -101,6 +106,7 @@ class Graph:
                     if not r.reference_title in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
                         writer.writerow(r.to_csv_row())
 
+
 def main():
     g = None
     if not os.path.exists(REFERENCE_GRAPH):
@@ -114,6 +120,7 @@ def main():
             g = jsonpickle.decode(f.read())
 
     g.write_references_to_csv()
+
 
 if __name__ == "__main__":
     main()
