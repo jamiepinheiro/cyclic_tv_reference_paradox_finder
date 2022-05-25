@@ -8,7 +8,6 @@ export interface Node {
 export interface Link {
     source: string
     target: string
-    references: Reference[]
 }
 
 export interface GraphData {

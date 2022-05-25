@@ -1,64 +1,91 @@
-import "./css/app.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import { Spinner } from "react-bootstrap";
-import { ForceGraph3D } from "react-force-graph";
 import { Reference } from "./types/Reference";
 import { GraphData, Link, Node } from "./types/GraphData";
+import Background from "./components/Background";
+import { Graph } from "./types/Graph";
+import { TvShow } from "./types/TvShow";
 
 function App() {
-  const [graphData, setGraphData] = useState<GraphData | null>(null);
+  const [graph, setGraph] = useState<Graph | null>(null);
 
   useEffect(() => {
-    const getReferences = async () => {
+    function buildGraphFromReferences(references: Reference[]) {
+      const graph = { tvShows: new Map() };
+      references.forEach(r => {
+        const tvShows: TvShow[] = [r.title, r.reference_title].map(title => {
+          if (graph.tvShows.has(title)) {
+            return graph.tvShows.get(title);
+          } else {
+            const tvShow = graph.tvShows.get(title) ?? {
+              title,
+              referencesTo: new Map(),
+              referencedBy: new Map()
+            };
+            graph.tvShows.set(title, tvShow);
+            return tvShow;
+          }
+        });
+
+        const refereeTvShow = tvShows[0];
+        const referenceTvShow = tvShows[1];
+        console.log(refereeTvShow);
+
+        if (!refereeTvShow.referencesTo.has(r.reference_title)) {
+          refereeTvShow.referencesTo.set(r.reference_title, []);
+        }
+        refereeTvShow.referencesTo.get(r.reference_title)!.push(r);
+
+        if (!referenceTvShow.referencedBy.has(r.title)) {
+          referenceTvShow.referencedBy.set(r.title, []);
+        }
+        referenceTvShow.referencedBy.get(r.title)!.push(r);
+      });
+      return graph;
+    }
+
+    const buildGraph = async () => {
       Papa.parse<Reference>("/references.csv", {
         download: true,
         header: true,
         complete: results => {
-          const references = new Map<[string, string], Reference[]>();
-          const tv_shows = new Set<string>();
-          results.data.forEach(r => {
-            tv_shows.add(r.title);
-            tv_shows.add(r.reference_title);
-            const key: [string, string] = [r.title, r.reference_title];
-            references.set(key, [...(references.get(key) ?? []), ...[r]]);
-          });
-
-          const nodes: Node[] = Array.from(tv_shows).map(name => {
-            return { id: name, name };
-          });
-
-          const links: Link[] = Array.from(references).map(
-            ([nodes, references]) => {
-              return {
-                source: nodes[0],
-                target: nodes[1],
-                references
-              };
-            }
-          );
-          setGraphData({ nodes, links });
+          const graph = buildGraphFromReferences(results.data);
+          setGraph(graph);
         }
       });
     };
-    getReferences();
+    buildGraph();
   }, []);
+
+  function getGraphData(graph: Graph) {
+    const nodes: Node[] = Array.from(graph.tvShows.keys()).map(title => {
+      return { id: title, name: title };
+    });
+
+    const links: Link[] = [];
+
+    Array.from(graph.tvShows.values()).forEach(tvShow => {
+      Array.from(tvShow.referencesTo.keys()).forEach(referenceTvShowTitle => {
+        links.push({
+          source: tvShow.title,
+          target: referenceTvShowTitle
+        });
+      });
+    });
+
+    return { nodes, links };
+  }
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
-      {!graphData ? (
+      {!graph ? (
         <div className="text-center">
           <Spinner animation="border" />
           <p className="m-3">Loading references</p>
         </div>
       ) : (
-        <div className="background">
-          <ForceGraph3D
-            graphData={graphData}
-            linkDirectionalArrowLength={3.5}
-            linkDirectionalArrowRelPos={1}
-          ></ForceGraph3D>
-        </div>
+        <Background graphData={getGraphData(graph)} />
       )}
     </div>
   );
