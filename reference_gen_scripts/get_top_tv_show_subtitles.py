@@ -54,4 +54,5 @@ def main():
 
     get_top_tv_show_subtitles()
 
-main()
+if __name__ == "__main__":
+    main()

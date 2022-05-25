@@ -14,4 +14,5 @@ def main():
         for result in results:
             print(result)
 
-main()
+if __name__ == "__main__":
+    main()

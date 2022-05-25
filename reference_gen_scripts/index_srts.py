@@ -68,4 +68,5 @@ def main():
             print('No new files, sleeping...')
             time.sleep(60)
 
-main()
+if __name__ == "__main__":
+    main()
