@@ -33,6 +33,8 @@ function App() {
           .reduce((prev, curr) => prev + (prev != "" ? ":" : "") + curr, "");
       }
 
+      // Not optimal, doing Nx the amount of work needed, but while N is small, this is fine.
+      // If this becomes slow, checkout https://stackoverflow.com/questions/546655/finding-all-cycles-in-a-directed-graph
       function getCycles(tvShows: Map<string, TvShow>) {
         const cycles: string[][] = [];
 
