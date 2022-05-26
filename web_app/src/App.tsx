@@ -18,9 +18,7 @@ function App() {
 
   useEffect(() => {
     function buildGraphFromReferences(references: Reference[]) {
-      const tvShows = new Map<string, TvShow>();
-      references.forEach(r => {
-        // Cleanup some of the fields
+      function cleanupReference(r: Reference) {
         const div = document.createElement("div");
         div.innerHTML = r.text;
         r.text = div.textContent || div.innerText || "";
@@ -33,6 +31,43 @@ function App() {
             })
           )
           .reduce((prev, curr) => prev + (prev != "" ? ":" : "") + curr, "");
+      }
+
+      function getCycles(tvShows: Map<string, TvShow>) {
+        const cycles: string[][] = [];
+
+        function dfsForCycles(title: string, visited: string[]) {
+          const referencesTo = Array.from(
+            tvShows.get(title)!.referencesTo.keys()
+          );
+          if (referencesTo.length == 0) {
+            return;
+          }
+
+          referencesTo.forEach(referenceTitle => {
+            const index = visited.findIndex(t => t === referenceTitle);
+            if (index != -1 && index != 0) {
+              return;
+            }
+            visited.push(referenceTitle);
+            if (index == -1) {
+              dfsForCycles(referenceTitle, visited);
+            } else if (index == 0) {
+              cycles.push([...visited]);
+            }
+            visited.pop();
+          });
+        }
+        Array.from(tvShows.keys()).forEach(title => {
+          dfsForCycles(title, [title]);
+        });
+
+        return cycles;
+      }
+
+      const tvShows = new Map<string, TvShow>();
+      references.forEach(r => {
+        cleanupReference(r);
 
         const shows: TvShow[] = [r.title, r.reference_title].map(title => {
           if (tvShows.has(title)) {
@@ -81,7 +116,10 @@ function App() {
         );
       });
 
-      setGraph({ tvShows });
+      const cycles = getCycles(tvShows);
+      console.log(cycles);
+
+      setGraph({ tvShows, cycles });
       setGraphData({ nodes, links });
     }
 

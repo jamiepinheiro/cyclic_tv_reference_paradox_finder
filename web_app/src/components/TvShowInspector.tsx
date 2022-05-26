@@ -1,12 +1,5 @@
 import "../css/index.css";
-import {
-  Accordion,
-  Card,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  Table
-} from "react-bootstrap";
+import { Accordion, Container, ListGroup } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 

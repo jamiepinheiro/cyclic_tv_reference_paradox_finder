@@ -1,5 +1,6 @@
 import { Card, Tab, Tabs } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
+import CycleFinder from "./CycleFinder";
 import TvShowInspector from "./TvShowInspector";
 
 type Props = {
@@ -22,7 +23,7 @@ function SidePanel({ tvShow }: Props) {
           eventKey="2"
           title="Cyclic Reference Finder"
         >
-          <p>asldfjsdlkj</p>
+          <CycleFinder />
         </Tab>
       </Tabs>
     </Card>
