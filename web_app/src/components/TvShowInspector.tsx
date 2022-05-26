@@ -1,5 +1,5 @@
 import "../css/index.css";
-import { Accordion, ListGroup } from "react-bootstrap";
+import { Accordion, ListGroup, Placeholder } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 

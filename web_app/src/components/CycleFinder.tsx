@@ -1,5 +1,14 @@
-import { Badge, Button, ListGroup } from "react-bootstrap";
+import { useState } from "react";
+import {
+  Badge,
+  Button,
+  Carousel,
+  ListGroup,
+  ListGroupItem
+} from "react-bootstrap";
 import { Graph } from "../types/Graph";
+import { Reference } from "../types/Reference";
+import { BsFillArrowDownCircleFill } from "react-icons/bs";
 
 type Props = {
   graph: Graph;
@@ -34,6 +43,43 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
     );
   }
 
+  function References(references: Reference[]) {
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex: number) => {
+      setIndex(selectedIndex);
+    };
+
+    return (
+      <Carousel
+        activeIndex={index}
+        onSelect={handleSelect}
+        variant="dark"
+        indicators={false}
+        interval={null}
+        controls={references.length > 1}
+      >
+        {references.map(reference => (
+          <Carousel.Item className="text-center">
+            <div className="px-5">
+              <div>
+                <small className="text-muted">
+                  <code>
+                    {reference.season}
+                    {reference.episode}{" "}
+                  </code>
+                  {reference.start_time}
+                  <br></br>
+                </small>
+              </div>
+              <small>{reference.text}</small>
+            </div>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    );
+  }
+
   if (!cycle) {
     return SelectCycle();
   }
@@ -41,7 +87,25 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
   return (
     <div className="p-3">
       <Button onClick={() => setCycle(null)}>Back</Button>
-      {JSON.stringify(cycle)}
+      {cycle.map((title, i) => {
+        if (i < cycle.length - 1) {
+          const references = graph.tvShows
+            .get(title)!
+            .referencesTo.get(cycle[i + 1])!;
+          return (
+            <div className="text-center">
+              <div className="my-3">
+                {title}
+                {References(references)}
+              </div>
+              <h5 className="text-muted">
+                <BsFillArrowDownCircleFill />
+              </h5>
+            </div>
+          );
+        }
+        return <div className="text-center"> {title} </div>;
+      })}
     </div>
   );
 }
