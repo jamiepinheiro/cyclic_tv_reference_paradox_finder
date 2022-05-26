@@ -1,29 +1,43 @@
 import { Card, Tab, Tabs } from "react-bootstrap";
+import { Graph } from "../types/Graph";
 import { TvShow } from "../types/TvShow";
 import CycleFinder from "./CycleFinder";
 import TvShowInspector from "./TvShowInspector";
 
 type Props = {
   tvShow: TvShow | null;
+  unsetTvShow: () => void;
+  graph: Graph;
+  cycle: string[] | null;
+  setCycle: (cycle: string[] | null) => void;
 };
 
-function SidePanel({ tvShow }: Props) {
+function SidePanel({ tvShow, unsetTvShow, graph, cycle, setCycle }: Props) {
   return (
     <Card id="side-panel" className="h-100 overflow-hidden">
-      <Tabs defaultActiveKey="1">
+      <Tabs
+        onSelect={e => {
+          if (e === TvShowInspector.toString()) {
+            setCycle(null);
+          } else if (e === CycleFinder.toString()) {
+            unsetTvShow();
+          }
+        }}
+        defaultActiveKey={TvShowInspector.toString()}
+      >
         <Tab
           className="h-100 overflow-auto"
-          eventKey="1"
+          eventKey={TvShowInspector.toString()}
           title="TV Show Inspector"
         >
           <TvShowInspector tvShow={tvShow} />
         </Tab>
         <Tab
           className="overflow-auto"
-          eventKey="2"
+          eventKey={CycleFinder.toString()}
           title="Cyclic Reference Finder"
         >
-          <CycleFinder />
+          <CycleFinder graph={graph} cycle={cycle} setCycle={setCycle} />
         </Tab>
       </Tabs>
     </Card>

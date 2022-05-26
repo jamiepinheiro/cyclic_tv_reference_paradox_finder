@@ -1,5 +1,5 @@
 import "../css/index.css";
-import { Accordion, Container, ListGroup } from "react-bootstrap";
+import { Accordion, ListGroup } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 
@@ -56,7 +56,7 @@ function TvShowInspector({ tvShow }: Props) {
   }
 
   return (
-    <Container className="p-3 overflow-auto">
+    <div className="p-3 overflow-auto">
       <h5>{tvShow.title}</h5>
       <ListGroup className="my-3">
         <ListGroup.Item>
@@ -78,7 +78,7 @@ function TvShowInspector({ tvShow }: Props) {
         <h6 className="mt-3">References To</h6>
       ) : null}
       {References(tvShow.referencesTo)}
-    </Container>
+    </div>
   );
 }
 

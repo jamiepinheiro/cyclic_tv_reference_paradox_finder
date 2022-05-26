@@ -15,6 +15,7 @@ function App() {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [tvShowSelected, setTvShowSelected] = useState<TvShow | null>(null);
+  const [cycle, setCycle] = useState<string[] | null>(null);
 
   useEffect(() => {
     function buildGraphFromReferences(references: Reference[]) {
@@ -119,7 +120,6 @@ function App() {
       });
 
       const cycles = getCycles(tvShows);
-      console.log(cycles);
 
       setGraph({ tvShows, cycles });
       setGraphData({ nodes, links });
@@ -139,14 +139,22 @@ function App() {
 
   const onNodeClick = useCallback(
     (title: string) => {
-      setTvShowSelected(graph!.tvShows.get(title)!);
+      if (!cycle) {
+        setTvShowSelected(graph!.tvShows.get(title)!);
+      }
     },
-    [tvShowSelected, graph]
+    [tvShowSelected, graph, cycle]
   );
 
   const clearClick = useCallback(() => {
     setTvShowSelected(null);
   }, [tvShowSelected]);
+
+  useEffect(() => {
+    if (cycle) {
+      setTvShowSelected(null);
+    }
+  }, [cycle]);
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
@@ -158,7 +166,13 @@ function App() {
       ) : (
         <>
           <div className="foreground">
-            <SidePanel tvShow={tvShowSelected} />
+            <SidePanel
+              tvShow={tvShowSelected}
+              unsetTvShow={clearClick}
+              cycle={cycle}
+              setCycle={setCycle}
+              graph={graph}
+            />
           </div>
           <div className="background">
             <GraphVisual
