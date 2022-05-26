@@ -8,11 +8,17 @@ type SelectedNode = {
   descendants: Set<string>;
 };
 
+type SelectedCycle = {
+  nodes: Set<string>;
+  links: Set<string>; // Source + Target
+};
+
 type Props = {
   graphData: GraphData;
   onNodeClick: (id: string) => void;
   clearClick: () => void;
   selectedNode: SelectedNode | null;
+  selectedCycle: SelectedCycle | null;
 };
 
 const NORMAL_LINK = "#CCCCCC";
@@ -22,11 +28,14 @@ const SELECTED_NODE = "RED";
 const ANCESTORS = "BLUE";
 const DESCENDANTS = "GREEN";
 
+const CYCLE = "PURPLE";
+
 function GraphVisual({
   graphData,
   onNodeClick,
   clearClick,
-  selectedNode
+  selectedNode,
+  selectedCycle
 }: Props) {
   const paint = useCallback(
     (node: any, ctx: any) => {
@@ -54,26 +63,33 @@ function GraphVisual({
     [selectedNode]
   );
 
+  function linkInCycle(link: any) {
+    if (selectedCycle?.links.has(link?.source?.id + link?.target?.id)) {
+      return true;
+    }
+    return false;
+  }
+
   function linkColor(link: any) {
-    if (!selectedNode) {
-      return NORMAL_LINK;
-    } else if (link?.source?.id === selectedNode.node) {
+    if (link?.source?.id === selectedNode?.node) {
       return DESCENDANTS;
-    } else if (link?.target?.id === selectedNode.node) {
+    } else if (link?.target?.id === selectedNode?.node) {
       return ANCESTORS;
+    } else if (linkInCycle(link)) {
+      return CYCLE;
     }
     return NORMAL_LINK;
   }
 
   function nodeColor(node: any) {
-    if (!selectedNode) {
-      return NORMAL_NODE;
-    } else if (node.id === selectedNode.node) {
+    if (node.id === selectedNode?.node) {
       return SELECTED_NODE;
-    } else if (selectedNode.descendants.has(node.id)) {
+    } else if (selectedNode?.descendants.has(node.id)) {
       return DESCENDANTS;
-    } else if (selectedNode.ancestors.has(node.id)) {
+    } else if (selectedNode?.ancestors.has(node.id)) {
       return ANCESTORS;
+    } else if (selectedCycle?.nodes.has(node.id)) {
+      return CYCLE;
     }
     return NORMAL_NODE;
   }
@@ -81,13 +97,16 @@ function GraphVisual({
   return (
     <ForceGraph2D
       graphData={graphData}
-      linkDirectionalArrowLength={2}
+      linkDirectionalArrowLength={4}
       linkDirectionalArrowRelPos={1}
       onNodeClick={(node, _) => {
         onNodeClick(node.id!.toString());
       }}
       onBackgroundClick={_ => clearClick()}
       linkColor={linkColor}
+      linkWidth={link => (linkInCycle(link) ? 2 : 1)}
+      linkDirectionalParticleWidth={link => (linkInCycle(link) ? 3 : 0)}
+      linkDirectionalParticles={link => (linkInCycle(link) ? 4 : 0)}
       nodeVal={node => (node.id === selectedNode?.node ? 0.7 : 0.4)}
       nodeColor={nodeColor}
       nodeCanvasObjectMode={_ => "after"}

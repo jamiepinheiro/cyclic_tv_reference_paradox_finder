@@ -6,21 +6,19 @@ import TvShowInspector from "./TvShowInspector";
 
 type Props = {
   tvShow: TvShow | null;
-  unsetTvShow: () => void;
   graph: Graph;
   cycle: string[] | null;
   setCycle: (cycle: string[] | null) => void;
+  setTab: (tab: string) => void;
 };
 
-function SidePanel({ tvShow, unsetTvShow, graph, cycle, setCycle }: Props) {
+function SidePanel({ tvShow, graph, cycle, setCycle, setTab }: Props) {
   return (
     <Card id="side-panel" className="h-100 overflow-hidden">
       <Tabs
         onSelect={e => {
-          if (e === TvShowInspector.toString()) {
-            setCycle(null);
-          } else if (e === CycleFinder.toString()) {
-            unsetTvShow();
+          if (e) {
+            setTab(e);
           }
         }}
         defaultActiveKey={TvShowInspector.toString()}

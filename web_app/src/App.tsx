@@ -7,6 +7,8 @@ import GraphVisual from "./components/GraphVisual";
 import { Graph } from "./types/Graph";
 import { TvShow } from "./types/TvShow";
 import SidePanel from "./components/SidePanel";
+import TvShowInspector from "./components/TvShowInspector";
+import CycleFinder from "./components/CycleFinder";
 
 const DEFAULT_NODE_SIZE = 1;
 const BIG_NODE_SIZE = 10;
@@ -16,6 +18,7 @@ function App() {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [tvShowSelected, setTvShowSelected] = useState<TvShow | null>(null);
   const [cycle, setCycle] = useState<string[] | null>(null);
+  const [tab, setTab] = useState<string>(TvShowInspector.toString());
 
   useEffect(() => {
     function buildGraphFromReferences(references: Reference[]) {
@@ -139,11 +142,11 @@ function App() {
 
   const onNodeClick = useCallback(
     (title: string) => {
-      if (!cycle) {
+      if (tab === TvShowInspector.toString()) {
         setTvShowSelected(graph!.tvShows.get(title)!);
       }
     },
-    [tvShowSelected, graph, cycle]
+    [tvShowSelected, graph, tab]
   );
 
   const clearClick = useCallback(() => {
@@ -151,10 +154,16 @@ function App() {
   }, [tvShowSelected]);
 
   useEffect(() => {
-    if (cycle) {
+    setTvShowSelected(null);
+  }, [cycle, tab]);
+
+  useEffect(() => {
+    if (tab === TvShowInspector.toString()) {
+      setCycle(null);
+    } else if (tab === CycleFinder.toString()) {
       setTvShowSelected(null);
     }
-  }, [cycle]);
+  }, [tab]);
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
@@ -168,10 +177,10 @@ function App() {
           <div className="foreground">
             <SidePanel
               tvShow={tvShowSelected}
-              unsetTvShow={clearClick}
               cycle={cycle}
               setCycle={setCycle}
               graph={graph}
+              setTab={setTab}
             />
           </div>
           <div className="background">
@@ -186,6 +195,18 @@ function App() {
                       node: tvShowSelected.node.id,
                       ancestors: new Set(tvShowSelected.referencedBy.keys()),
                       descendants: new Set(tvShowSelected.referencesTo.keys())
+                    }
+              }
+              selectedCycle={
+                !cycle
+                  ? null
+                  : {
+                      nodes: new Set(cycle),
+                      links: new Set(
+                        cycle.map(
+                          (title, i) => title + cycle[i + (1 % cycle.length)]
+                        )
+                      )
                     }
               }
             />
