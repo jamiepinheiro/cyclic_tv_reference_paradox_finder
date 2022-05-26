@@ -76,10 +76,14 @@ function TvShowInspector({ tvShow }: Props) {
         </ListGroup.Item>
       </ListGroup>
 
-      <h6>Referenced By</h6>
+      {Array.from(tvShow.referencedBy).length > 0 ? (
+        <h6>Referenced By</h6>
+      ) : null}
       {References(tvShow.referencedBy)}
 
-      <h6 className="mt-3">Referenced To</h6>
+      {Array.from(tvShow.referencesTo).length > 0 ? (
+        <h6 className="mt-3">References To</h6>
+      ) : null}
       {References(tvShow.referencesTo)}
     </Container>
   );
