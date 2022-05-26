@@ -40,6 +40,11 @@ code {
 
 #side-panel > div {
   overflow-y: auto;
+  height: 100%;
+}
+
+#panel > div {
+  overflow-y: auto;
 }
 
 slot > button {

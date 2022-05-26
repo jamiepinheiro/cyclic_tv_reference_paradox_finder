@@ -24,14 +24,14 @@ function SidePanel({ tvShow, graph, cycle, setCycle, setTab }: Props) {
         defaultActiveKey={TvShowInspector.toString()}
       >
         <Tab
-          className="h-100 overflow-auto"
+          className="h-100 overflow-hidden"
           eventKey={TvShowInspector.toString()}
           title="TV Show Inspector"
         >
           <TvShowInspector tvShow={tvShow} />
         </Tab>
         <Tab
-          className="overflow-auto"
+          className="h-100 overflow-auto"
           eventKey={CycleFinder.toString()}
           title="Cyclic Reference Finder"
         >

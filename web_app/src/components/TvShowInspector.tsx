@@ -1,13 +1,29 @@
 import "../css/index.css";
-import { Accordion, ListGroup, Placeholder } from "react-bootstrap";
+import {
+  Accordion,
+  Card,
+  ListGroup,
+  Placeholder,
+  Tab,
+  Tabs
+} from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
+import { useEffect, useState } from "react";
 
 type Props = {
   tvShow: TvShow | null;
 };
 
 function TvShowInspector({ tvShow }: Props) {
+  const [activeKey, setActiveKey] = useState(
+    !tvShow ? "By" : tvShow.referencedBy.size > 0 ? "By" : "To"
+  );
+
+  useEffect(() => {
+    setActiveKey(!tvShow ? "By" : tvShow.referencedBy.size > 0 ? "By" : "To");
+  }, [tvShow]);
+
   if (!tvShow) {
     return (
       <div className="text-center my-5">
@@ -62,7 +78,7 @@ function TvShowInspector({ tvShow }: Props) {
   }
 
   return (
-    <div className="p-3 overflow-auto">
+    <div className="p-3 h-100 overflow-hidden">
       <h5>{tvShow.title}</h5>
       <ListGroup className="my-3">
         <ListGroup.Item>
@@ -75,15 +91,35 @@ function TvShowInspector({ tvShow }: Props) {
         </ListGroup.Item>
       </ListGroup>
 
-      {Array.from(tvShow.referencedBy).length > 0 ? (
-        <h6>Referenced By</h6>
-      ) : null}
-      {References(tvShow.referencedBy)}
-
-      {Array.from(tvShow.referencesTo).length > 0 ? (
-        <h6 className="mt-3">References To</h6>
-      ) : null}
-      {References(tvShow.referencesTo)}
+      <Card id="panel" className="p-2 h-100">
+        <Tabs
+          activeKey={activeKey}
+          onSelect={e => {
+            if (e) {
+              setActiveKey(e);
+            }
+          }}
+          variant="pills"
+          className="mb-2 pb-1"
+        >
+          <Tab
+            className="overflow-auto"
+            eventKey={"By"}
+            title="Referenced By"
+            disabled={tvShow.referencedBy.size == 0}
+          >
+            {References(tvShow.referencedBy)}
+          </Tab>
+          <Tab
+            className="h-100 overflow-auto"
+            eventKey={"To"}
+            title="References To"
+            disabled={tvShow.referencesTo.size == 0}
+          >
+            {References(tvShow.referencesTo)}
+          </Tab>
+        </Tabs>
+      </Card>
     </div>
   );
 }

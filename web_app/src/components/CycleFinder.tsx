@@ -59,8 +59,8 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
         interval={null}
         controls={references.length > 1}
       >
-        {references.map(reference => (
-          <Carousel.Item className="text-center">
+        {references.map((reference, i) => (
+          <Carousel.Item key={i} className="text-center">
             <div className="px-5">
               <div>
                 <small className="text-muted">
@@ -93,7 +93,7 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
             .get(title)!
             .referencesTo.get(cycle[i + 1])!;
           return (
-            <div className="text-center">
+            <div key={i} className="text-center">
               <div className="my-3">
                 {title}
                 {References(references)}
