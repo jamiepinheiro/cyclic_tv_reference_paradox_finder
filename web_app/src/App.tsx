@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Papa from "papaparse";
 import { Spinner } from "react-bootstrap";
 import { Reference } from "./types/Reference";
@@ -6,7 +6,7 @@ import { GraphData, Link, Node } from "./types/GraphData";
 import GraphVisual from "./components/GraphVisual";
 import { Graph } from "./types/Graph";
 import { TvShow } from "./types/TvShow";
-import Selected from "./components/Selected";
+import SidePanel from "./components/SidePanel";
 
 const DEFAULT_NODE_SIZE = 1;
 const BIG_NODE_SIZE = 10;
@@ -20,6 +20,20 @@ function App() {
     function buildGraphFromReferences(references: Reference[]) {
       const tvShows = new Map<string, TvShow>();
       references.forEach(r => {
+        // Cleanup some of the fields
+        const div = document.createElement("div");
+        div.innerHTML = r.text;
+        r.text = div.textContent || div.innerText || "";
+        r.start_time = r.start_time
+          ?.split(",")[0]
+          .split(":")
+          .map(n =>
+            parseInt(n).toLocaleString("en-US", {
+              minimumIntegerDigits: 2
+            })
+          )
+          .reduce((prev, curr) => prev + (prev != "" ? ":" : "") + curr, "");
+
         const shows: TvShow[] = [r.title, r.reference_title].map(title => {
           if (tvShows.has(title)) {
             return tvShows.get(title)!;
@@ -104,7 +118,7 @@ function App() {
       ) : (
         <>
           <div className="foreground">
-            <Selected tvShowSelected={tvShowSelected} />
+            <SidePanel tvShow={tvShowSelected} />
           </div>
           <div className="background">
             <GraphVisual

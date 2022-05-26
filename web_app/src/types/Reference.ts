@@ -3,6 +3,7 @@ export type Reference = {
     title: string,
     season: string,
     episode: string,
-    startTime: string,
-    endTime: string
+    start_time: string,
+    end_time: string
+    text: string
 }
