@@ -12,7 +12,7 @@ class Reference:
         self.title = title
         self.season = season
         self.episode = episode
-        self.text = text.replace('\r', ' ').replace('\n', ' ').replace('"', '')
+        self.text = text.replace('"', '')
         self.start_time = start_time
         self.end_time = end_time
 
