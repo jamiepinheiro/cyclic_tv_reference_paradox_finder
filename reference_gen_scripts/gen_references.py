@@ -5,6 +5,8 @@ from constants import SUBTITLES_DIR, INDEX_DIR, REFERENCE_GRAPH, TV_SHOW_DENYLIS
 from whoosh import index
 from whoosh.qparser import QueryParser, query
 
+# Todo(Jamie): Try removing 'text' from the hash, and then fixing the spacing/formatting a bit here.
+
 
 class Reference:
     def __init__(self, reference_title, title, season, episode, text, start_time, end_time):
