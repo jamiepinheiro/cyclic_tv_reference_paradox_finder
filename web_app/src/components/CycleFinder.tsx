@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { Badge, Button, ListGroup } from "react-bootstrap";
 import { Graph } from "../types/Graph";
-import { TvShow } from "../types/TvShow";
 
 type Props = {
   graph: Graph;

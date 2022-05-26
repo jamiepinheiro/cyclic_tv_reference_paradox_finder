@@ -29,7 +29,13 @@ function TvShowInspector({ tvShow }: Props) {
       <Accordion defaultActiveKey={["0"]}>
         {Array.from(references).map(([title, showReferences], i) => (
           <Accordion.Item key={i} eventKey={i.toString()}>
-            <Accordion.Header as="slot">{title}</Accordion.Header>
+            <Accordion.Header as="slot">
+              {title}
+              <small className="px-1 text-muted">
+                ({showReferences.length})
+              </small>
+            </Accordion.Header>
+
             <Accordion.Body className="p-1">
               <ListGroup variant="flush">
                 {Array.from(showReferences).map((reference, i) => (
