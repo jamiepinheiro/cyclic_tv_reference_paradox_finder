@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -63,6 +64,6 @@ slot > button {
   padding: 0.5rem !important;
 }
 
-a {
+#link {
   text-decoration: none; /* no underline */
 }

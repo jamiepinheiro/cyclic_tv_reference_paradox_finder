@@ -1,14 +1,9 @@
 import { useState } from "react";
-import {
-  Badge,
-  Button,
-  Carousel,
-  ListGroup,
-  ListGroupItem
-} from "react-bootstrap";
+import { Badge, Button, Carousel, ListGroup } from "react-bootstrap";
 import { Graph } from "../types/Graph";
 import { Reference } from "../types/Reference";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import { BLUE } from "../utils/Colors";
 
 type Props = {
   graph: Graph;
@@ -19,27 +14,34 @@ type Props = {
 function CycleFinder({ graph, cycle, setCycle }: Props) {
   function SelectCycle() {
     return (
-      <ListGroup className="p-3">
-        {graph.cycles.map((cycle, i) => (
-          <ListGroup.Item
-            key={i}
-            className="d-flex justify-content-between align-items-start"
-            action
-            onClick={() => setCycle(cycle)}
-          >
-            <div>
-              {cycle.map((title, j) => (
-                <small key={j}>
-                  <code>{title}</code> {j == cycle.length - 1 ? "" : " -> "}
-                </small>
-              ))}
-            </div>
-            <Badge bg="primary" pill>
-              {cycle.length}
-            </Badge>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <div className="p-3">
+        <h5>{graph.cycles.length} cyclic references discovered</h5>
+        <p>
+          Click on one below to view the cycle of references and display them on
+          the graph.
+        </p>
+        <ListGroup>
+          {graph.cycles.map((cycle, i) => (
+            <ListGroup.Item
+              key={i}
+              className="d-flex justify-content-between align-items-start"
+              action
+              onClick={() => setCycle(cycle)}
+            >
+              <div>
+                {cycle.map((title, j) => (
+                  <small key={j}>
+                    <code>{title}</code> {j == cycle.length - 1 ? "" : " -> "}
+                  </small>
+                ))}
+              </div>
+              <Badge bg="primary" pill>
+                {cycle.length}
+              </Badge>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </div>
     );
   }
 
@@ -86,7 +88,9 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
 
   return (
     <div className="p-3">
-      <Button onClick={() => setCycle(null)}>Back</Button>
+      <Button variant="secondary" onClick={() => setCycle(null)}>
+        Back
+      </Button>
       {cycle.map((title, i) => {
         if (i < cycle.length - 1) {
           const references = graph.tvShows
@@ -98,13 +102,17 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
                 {title}
                 {References(references)}
               </div>
-              <h5 className="text-muted">
+              <h5 style={{ color: BLUE }}>
                 <BsFillArrowDownCircleFill />
               </h5>
             </div>
           );
         }
-        return <div className="text-center"> {title} </div>;
+        return (
+          <div key={i} className="text-center">
+            {title}
+          </div>
+        );
       })}
     </div>
   );

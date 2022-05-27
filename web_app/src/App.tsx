@@ -9,6 +9,7 @@ import { TvShow } from "./types/TvShow";
 import SidePanel from "./components/SidePanel";
 import TvShowInspector from "./components/TvShowInspector";
 import CycleFinder from "./components/CycleFinder";
+import { NAVY } from "./utils/Colors";
 
 const DEFAULT_NODE_SIZE = 1;
 const BIG_NODE_SIZE = 10;
@@ -213,10 +214,16 @@ function App() {
                   ? null
                   : {
                       nodes: new Set(cycle),
-                      links: new Set(
-                        cycle.map(
-                          (title, i) => title + cycle[i + (1 % cycle.length)]
-                        )
+                      links: new Map(
+                        cycle.map((title, i) => {
+                          const nextShow = cycle[(i + 1) % cycle.length];
+                          return [
+                            title + nextShow,
+                            (graph.tvShows
+                              .get(title)
+                              ?.referencesTo.get(nextShow)?.length ?? 0) * 2
+                          ];
+                        })
                       )
                     }
               }
@@ -224,11 +231,11 @@ function App() {
           </div>
         </>
       )}
-      <div id="madeBy">
-        <div className="bg-dark float-end px-2">
+      <div id="madeBy" className="opacity-50">
+        <div className="float-end px-2" style={{ backgroundColor: NAVY }}>
           <small className="text-light text-end">
             Made by{" "}
-            <a target="_blank" href="https://jamiepinheiro.com">
+            <a id="link" target="_blank" href="https://jamiepinheiro.com">
               Jamie Pinheiro
             </a>
           </small>
