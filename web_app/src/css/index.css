@@ -56,6 +56,12 @@ code {
   z-index: 2;
 }
 
+#help {
+  position: absolute;
+  right: 0%;
+  top: 0%;
+}
+
 #madeBy > div {
   display: inline-block;
 }
@@ -66,4 +72,12 @@ slot > button {
 
 #link {
   text-decoration: none; /* no underline */
+}
+
+body.modal-open > :not(.modal) {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
 }
