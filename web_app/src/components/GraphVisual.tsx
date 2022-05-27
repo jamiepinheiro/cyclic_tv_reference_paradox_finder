@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { ForceGraph2D } from "react-force-graph";
 import { GraphData } from "../types/GraphData";
 import { BLUE, GREEN, GREY, NAVY, ORANGE, RED, WHITE } from "../utils/Colors";
@@ -78,15 +78,41 @@ function GraphVisual({
     } else if (selectedNode?.descendants.has(node.id)) {
       return GREEN;
     } else if (selectedNode?.ancestors.has(node.id)) {
-      return BLUE;
+      return ORANGE;
     } else if (selectedCycle?.nodes.has(node.id)) {
       return BLUE;
     }
     return NAVY;
   }
 
+  const graph = useRef<any>();
+  useEffect(() => {
+    if (graph.current) {
+      graph.current.zoom(4);
+    }
+  }, [graph]);
+
+  useEffect(() => {
+    if (graph.current) {
+      if (selectedNode || selectedCycle) {
+        graph.current.zoomToFit(
+          500,
+          150,
+          (n: any) =>
+            selectedNode?.node == n.id ||
+            selectedNode?.ancestors.has(n.id) ||
+            selectedNode?.descendants.has(n.id) ||
+            selectedCycle?.nodes.has(n.id)
+        );
+      } else {
+        graph.current.zoomToFit(500, -300, (n: any) => n.x && n.y);
+      }
+    }
+  }, [graph, selectedNode, selectedCycle]);
+
   return (
     <ForceGraph2D
+      ref={graph}
       graphData={graphData}
       linkDirectionalArrowLength={4}
       linkDirectionalArrowRelPos={1}
@@ -103,7 +129,6 @@ function GraphVisual({
       nodeCanvasObjectMode={_ => "after"}
       nodeCanvasObject={paint}
       backgroundColor={WHITE}
-      minZoom={4}
     ></ForceGraph2D>
   );
 }
