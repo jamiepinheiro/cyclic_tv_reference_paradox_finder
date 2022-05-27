@@ -129,6 +129,8 @@ function GraphVisual({
       nodeCanvasObjectMode={_ => "after"}
       nodeCanvasObject={paint}
       backgroundColor={WHITE}
+      minZoom={1}
+      maxZoom={10}
     ></ForceGraph2D>
   );
 }
