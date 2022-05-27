@@ -11,6 +11,10 @@ import TvShowInspector from "./components/TvShowInspector";
 import CycleFinder from "./components/CycleFinder";
 import { NAVY } from "./utils/Colors";
 import Help from "./components/Help";
+import ReactGA from "react-ga";
+
+ReactGA.initialize("UA-152743685-1");
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const DEFAULT_NODE_SIZE = 1;
 const BIG_NODE_SIZE = 10;
@@ -21,7 +25,6 @@ function App() {
   const [tvShowSelected, setTvShowSelected] = useState<TvShow | null>(null);
   const [cycle, setCycle] = useState<string[] | null>(null);
   const [tab, setTab] = useState<string>(TvShowInspector.toString());
-  const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
     function buildGraphFromReferences(references: Reference[]) {
