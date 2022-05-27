@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Papa from "papaparse";
-import { Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { Reference } from "./types/Reference";
 import { GraphData, Link, Node } from "./types/GraphData";
 import GraphVisual from "./components/GraphVisual";
@@ -10,6 +10,7 @@ import SidePanel from "./components/SidePanel";
 import TvShowInspector from "./components/TvShowInspector";
 import CycleFinder from "./components/CycleFinder";
 import { NAVY } from "./utils/Colors";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 const DEFAULT_NODE_SIZE = 1;
 const BIG_NODE_SIZE = 10;
@@ -145,6 +146,9 @@ function App() {
         download: true,
         header: true,
         complete: results => {
+          // Drop empty line at end
+          results.data.pop();
+
           buildGraphFromReferences(results.data);
         }
       });
@@ -228,6 +232,15 @@ function App() {
                     }
               }
             />
+          </div>
+          <div id="help" className="opacity-50">
+            <h1
+              className="px-2"
+              onClick={console.log}
+              style={{ cursor: "pointer" }}
+            >
+              <AiFillQuestionCircle />
+            </h1>
           </div>
         </>
       )}
