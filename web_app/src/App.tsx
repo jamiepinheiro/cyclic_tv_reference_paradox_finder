@@ -224,6 +224,16 @@ function App() {
           </div>
         </>
       )}
+      <div id="madeBy">
+        <div className="bg-dark float-end px-2">
+          <small className="text-light text-end">
+            Made by{" "}
+            <a target="_blank" href="https://jamiepinheiro.com">
+              Jamie Pinheiro
+            </a>
+          </small>
+        </div>
+      </div>
     </div>
   );
 }

@@ -47,6 +47,22 @@ code {
   overflow-y: auto;
 }
 
+#madeBy {
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  width: 100%;
+  z-index: 2;
+}
+
+#madeBy > div {
+  display: inline-block;
+}
+
 slot > button {
   padding: 0.5rem !important;
+}
+
+a {
+  text-decoration: none; /* no underline */
 }
