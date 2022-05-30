@@ -101,6 +101,14 @@ TV_SHOW_DENYLIST = set([
     'Spartacus',
     'Baki Hanma',
     'Running Man',
+    'Big Brother',
+    'JAG',
+    'Angel',
+    'ER',
+    'In Treatment',
+    'Heels',
+    'Medium',
+    'Dexter',
 ])
 
 # Shows are part of the same 'universe', not really referencing eachother

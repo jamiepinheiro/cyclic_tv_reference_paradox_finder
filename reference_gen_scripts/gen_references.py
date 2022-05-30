@@ -102,6 +102,10 @@ class Graph:
             writer = csv.writer(f)
             writer.writerow(Reference.CSV_HEADER)
             for n in self.nodes.values():
+                # Skip shows with lots of references, too many false positives to clean
+                if len(n.references) > 100:
+                    continue
+
                 for r in n.references:
                     if not r.reference_title in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
                         writer.writerow(r.to_csv_row())
