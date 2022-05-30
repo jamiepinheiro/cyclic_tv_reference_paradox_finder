@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cyclic_tv_reference_paradox_finder/static/css/main.2eebcdfd.css",
+    "main.js": "/cyclic_tv_reference_paradox_finder/static/js/main.2c1f887e.js",
+    "index.html": "/cyclic_tv_reference_paradox_finder/index.html",
+    "main.2eebcdfd.css.map": "/cyclic_tv_reference_paradox_finder/static/css/main.2eebcdfd.css.map",
+    "main.2c1f887e.js.map": "/cyclic_tv_reference_paradox_finder/static/js/main.2c1f887e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2eebcdfd.css",
+    "static/js/main.2c1f887e.js"
+  ]
+}
