@@ -85,7 +85,7 @@ function App() {
     }
 
     const buildGraph = async () => {
-      Papa.parse<Reference>("/references.csv", {
+      Papa.parse<Reference>(process.env.PUBLIC_URL + "/references.csv", {
         download: true,
         header: true,
         complete: results => {
