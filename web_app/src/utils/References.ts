@@ -15,5 +15,5 @@ export function CleanupReference(r: Reference) {
         minimumIntegerDigits: 2
       })
     )
-    .reduce((prev, curr) => prev + (prev != "" ? ":" : "") + curr, "");
+    .reduce((prev, curr) => prev + (prev !== "" ? ":" : "") + curr, "");
 }

@@ -6,7 +6,12 @@ function MadeBy() {
       <div className="float-end px-2" style={{ backgroundColor: NAVY }}>
         <small className="text-light text-end">
           Made by{" "}
-          <a id="link" target="_blank" href="https://jamiepinheiro.com">
+          <a
+            id="link"
+            target="_blank"
+            rel="noreferrer"
+            href="https://jamiepinheiro.com"
+          >
             Jamie Pinheiro
           </a>
         </small>

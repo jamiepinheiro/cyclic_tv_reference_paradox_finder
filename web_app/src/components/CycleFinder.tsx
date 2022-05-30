@@ -31,7 +31,7 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
               <div>
                 {cycle.map((title, j) => (
                   <small key={j}>
-                    <code>{title}</code> {j == cycle.length - 1 ? "" : " -> "}
+                    <code>{title}</code> {j === cycle.length - 1 ? "" : " -> "}
                   </small>
                 ))}
               </div>

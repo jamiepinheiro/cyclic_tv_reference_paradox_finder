@@ -99,7 +99,7 @@ function GraphVisual({
           500,
           150,
           (n: any) =>
-            selectedNode?.node == n.id ||
+            selectedNode?.node === n.id ||
             selectedNode?.ancestors.has(n.id) ||
             selectedNode?.descendants.has(n.id) ||
             selectedCycle?.nodes.has(n.id)

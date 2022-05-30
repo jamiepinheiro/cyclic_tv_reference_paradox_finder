@@ -9,19 +9,19 @@ export function GetCycles(tvShows: Map<string, TvShow>) {
 
   function dfsForCycles(title: string, visited: string[]) {
     const referencesTo = Array.from(tvShows.get(title)!.referencesTo.keys());
-    if (referencesTo.length == 0) {
+    if (referencesTo.length === 0) {
       return;
     }
 
     referencesTo.forEach(referenceTitle => {
       const index = visited.findIndex(t => t === referenceTitle);
-      if (index != -1 && index != 0) {
+      if (index !== -1 && index !== 0) {
         return;
       }
-      if (index == -1) {
+      if (index === -1) {
         visited.push(referenceTitle);
         dfsForCycles(referenceTitle, visited);
-      } else if (index == 0) {
+      } else if (index === 0) {
         const path = visited.reduce((prev, curr) => prev + curr, "");
         const isDupe = dedupCycles.find(c => c.includes(path));
         if (isDupe) {

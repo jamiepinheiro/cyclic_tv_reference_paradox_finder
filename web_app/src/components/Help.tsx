@@ -1,6 +1,6 @@
 import "../css/index.css";
 import { useState } from "react";
-import { Modal, Button, Row, Figure } from "react-bootstrap";
+import { Modal, Button, Figure } from "react-bootstrap";
 import { AiFillQuestionCircle } from "react-icons/ai";
 
 function Help() {
@@ -61,6 +61,7 @@ function Help() {
         <Modal.Footer className="justify-content-between">
           <a
             target="_blank"
+            rel="noreferrer"
             href="https://github.com/jamiepinheiro/cyclic_tv_reference_paradox_finder/issues/new"
           >
             Problem? Open an issue.

@@ -1,12 +1,5 @@
 import "../css/index.css";
-import {
-  Accordion,
-  Card,
-  ListGroup,
-  Placeholder,
-  Tab,
-  Tabs
-} from "react-bootstrap";
+import { Accordion, Card, ListGroup, Tab, Tabs } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 import { useEffect, useState } from "react";
@@ -110,7 +103,7 @@ function TvShowInspector({ tvShow }: Props) {
             className="overflow-auto"
             eventKey={"By"}
             title="Referenced By"
-            disabled={tvShow.referencedBy.size == 0}
+            disabled={tvShow.referencedBy.size === 0}
           >
             {References(tvShow.referencedBy)}
           </Tab>
@@ -118,7 +111,7 @@ function TvShowInspector({ tvShow }: Props) {
             className="h-100 overflow-auto"
             eventKey={"To"}
             title="References To"
-            disabled={tvShow.referencesTo.size == 0}
+            disabled={tvShow.referencesTo.size === 0}
           >
             {References(tvShow.referencesTo)}
           </Tab>

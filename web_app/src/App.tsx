@@ -9,7 +9,6 @@ import { TvShow } from "./types/TvShow";
 import SidePanel from "./components/SidePanel";
 import TvShowInspector from "./components/TvShowInspector";
 import CycleFinder from "./components/CycleFinder";
-import { NAVY } from "./utils/Colors";
 import Help from "./components/Help";
 import ReactGA from "react-ga";
 import { GetCycles } from "./utils/GraphAlgo";
@@ -18,9 +17,6 @@ import MadeBy from "./components/MadeBy";
 
 ReactGA.initialize("UA-152743685-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
-
-const DEFAULT_NODE_SIZE = 1;
-const BIG_NODE_SIZE = 10;
 
 function App() {
   const [graph, setGraph] = useState<Graph | null>(null);
@@ -109,12 +105,12 @@ function App() {
         setTvShowSelected(graph!.tvShows.get(title)!);
       }
     },
-    [tvShowSelected, graph, tab]
+    [graph, tab]
   );
 
-  const clearClick = useCallback(() => {
+  const clearClick = () => {
     setTvShowSelected(null);
-  }, [tvShowSelected]);
+  };
 
   useEffect(() => {
     setTvShowSelected(null);
