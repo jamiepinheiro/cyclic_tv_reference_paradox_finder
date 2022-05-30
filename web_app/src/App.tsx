@@ -12,6 +12,9 @@ import CycleFinder from "./components/CycleFinder";
 import { NAVY } from "./utils/Colors";
 import Help from "./components/Help";
 import ReactGA from "react-ga";
+import { GetCycles } from "./utils/GraphAlgo";
+import { CleanupReference } from "./utils/References";
+import MadeBy from "./components/MadeBy";
 
 ReactGA.initialize("UA-152743685-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -28,69 +31,9 @@ function App() {
 
   useEffect(() => {
     function buildGraphFromReferences(references: Reference[]) {
-      function cleanupReference(r: Reference) {
-        const div = document.createElement("div");
-        div.innerHTML = r.text;
-        r.text = div.textContent || div.innerText || "";
-        r.start_time = r.start_time
-          ?.split(",")[0]
-          .split(":")
-          .map(n =>
-            parseInt(n).toLocaleString("en-US", {
-              minimumIntegerDigits: 2
-            })
-          )
-          .reduce((prev, curr) => prev + (prev != "" ? ":" : "") + curr, "");
-      }
-
-      // Not optimal, doing N times the amount of work needed, but while N is small, this is fine.
-      // If this becomes slow, checkout https://stackoverflow.com/questions/546655/finding-all-cycles-in-a-directed-graph
-      function getCycles(tvShows: Map<string, TvShow>) {
-        const cycles: string[][] = [];
-        const dedupCycles: string[] = [];
-
-        function dfsForCycles(title: string, visited: string[]) {
-          const referencesTo = Array.from(
-            tvShows.get(title)!.referencesTo.keys()
-          );
-          if (referencesTo.length == 0) {
-            return;
-          }
-
-          referencesTo.forEach(referenceTitle => {
-            const index = visited.findIndex(t => t === referenceTitle);
-            if (index != -1 && index != 0) {
-              return;
-            }
-            if (index == -1) {
-              visited.push(referenceTitle);
-              dfsForCycles(referenceTitle, visited);
-            } else if (index == 0) {
-              const path = visited.reduce((prev, curr) => prev + curr, "");
-              const isDupe = dedupCycles.find(c => c.includes(path));
-              if (isDupe) {
-                return;
-              }
-              visited.push(referenceTitle);
-              cycles.push([...visited]);
-
-              // Concat the path twice to see if cycles are the same.
-              // ie. 'BCAB' is in the same 'ABCA', so add 'ABCABC' to dedup cycles, 'BCA' will be a substring
-              dedupCycles.push(path + path);
-            }
-            visited.pop();
-          });
-        }
-        Array.from(tvShows.keys()).forEach(title => {
-          dfsForCycles(title, [title]);
-        });
-
-        return cycles;
-      }
-
       const tvShows = new Map<string, TvShow>();
       references.forEach(r => {
-        cleanupReference(r);
+        CleanupReference(r);
 
         const shows: TvShow[] = [r.title, r.reference_title].map(title => {
           if (tvShows.has(title)) {
@@ -139,7 +82,7 @@ function App() {
         );
       });
 
-      const cycles = getCycles(tvShows);
+      const cycles = GetCycles(tvShows);
 
       setGraph({ tvShows, cycles });
       setGraphData({ nodes, links });
@@ -240,16 +183,7 @@ function App() {
           <Help />
         </>
       )}
-      <div id="madeBy" className="opacity-50">
-        <div className="float-end px-2" style={{ backgroundColor: NAVY }}>
-          <small className="text-light text-end">
-            Made by{" "}
-            <a id="link" target="_blank" href="https://jamiepinheiro.com">
-              Jamie Pinheiro
-            </a>
-          </small>
-        </div>
-      </div>
+      <MadeBy />
     </div>
   );
 }

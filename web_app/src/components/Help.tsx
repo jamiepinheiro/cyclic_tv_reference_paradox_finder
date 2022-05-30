@@ -4,7 +4,7 @@ import { Modal, Button, Row, Figure } from "react-bootstrap";
 import { AiFillQuestionCircle } from "react-icons/ai";
 
 function Help() {
-  const [showHelp, setShowHelp] = useState(false);
+  const [showHelp, setShowHelp] = useState(true);
   return (
     <div>
       <div id="help" className="opacity-50">
