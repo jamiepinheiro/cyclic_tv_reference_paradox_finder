@@ -17,8 +17,8 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
       <div className="p-3">
         <h5>{graph.cycles.length} cyclic references discovered</h5>
         <p>
-          Click on one below to view the cycle of references and display them on
-          the graph.
+          Click on a cycle below to view the exact references and visualize them
+          on the graph.
         </p>
         <ListGroup>
           {graph.cycles.map((cycle, i) => (

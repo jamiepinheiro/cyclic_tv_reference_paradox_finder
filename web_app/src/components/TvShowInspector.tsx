@@ -22,8 +22,7 @@ function TvShowInspector({ tvShow }: Props) {
       <div className="p-3">
         <h5>Select a TV show</h5>
         <p>
-          Inspect a TV Show's references by clicking on a node in the graph to
-          the right.
+          Inspect a TV Show's references by clicking on a node in the graph.
         </p>
       </div>
     );
