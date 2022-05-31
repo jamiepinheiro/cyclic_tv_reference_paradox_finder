@@ -38,10 +38,7 @@ function App() {
             const tvShow: TvShow = tvShows.get(title) ?? {
               title,
               referencesTo: new Map(),
-              referencedBy: new Map(),
-              node: {
-                id: title
-              }
+              referencedBy: new Map()
             };
             tvShows.set(title, tvShow);
             return tvShow;
@@ -62,9 +59,9 @@ function App() {
         referenceTvShow.referencedBy.get(r.title)!.push(r);
       });
 
-      const nodes: Node[] = Array.from(tvShows.values()).map(
-        tvShow => tvShow.node
-      );
+      const nodes: Node[] = Array.from(tvShows.values()).map(tvShow => {
+        return { id: tvShow.title };
+      });
 
       const links: Link[] = [];
       Array.from(tvShows.values()).forEach(tvShow => {
@@ -88,11 +85,11 @@ function App() {
       Papa.parse<Reference>(process.env.PUBLIC_URL + "/references.csv", {
         download: true,
         header: true,
-        complete: results => {
+        complete: references => {
           // Drop empty line at end
-          results.data.pop();
+          references.data.pop();
 
-          buildGraphFromReferences(results.data);
+          buildGraphFromReferences(references.data);
         }
       });
     };
@@ -151,7 +148,7 @@ function App() {
                 !tvShowSelected
                   ? null
                   : {
-                      node: tvShowSelected.node.id,
+                      node: tvShowSelected.title,
                       ancestors: new Set(tvShowSelected.referencedBy.keys()),
                       descendants: new Set(tvShowSelected.referencesTo.keys())
                     }
