@@ -41,5 +41,7 @@ export function GetCycles(tvShows: Map<string, TvShow>) {
     dfsForCycles(title, [title]);
   });
 
+  cycles.sort((a, b) => a.length - b.length);
+
   return cycles;
 }
