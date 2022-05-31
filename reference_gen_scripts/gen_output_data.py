@@ -69,10 +69,6 @@ class Node:
         self.title = title
         self.references = []
 
-    def is_too_referenced(self):
-        # Skip shows with lots of references, too many false positives to clean
-        return len(self.references) > 100
-
 
 class Graph:
     def __init__(self):
@@ -114,11 +110,8 @@ class Graph:
             writer = csv.writer(f)
             writer.writerow(Reference.CSV_HEADER)
             for n in self.nodes.values():
-                if n.is_too_referenced():
-                    continue
-
                 for r in n.references:
-                    if r.reference_title not in TV_SHOW_DENYLIST and r.title not in TV_SHOW_DENYLIST and (False if self.nodes.get(r.title) is None else not self.nodes.get(r.title).is_too_referenced()) and not r.is_intrauniverse_reference() and r not in reference_denylist:
+                    if r.reference_title not in TV_SHOW_DENYLIST and r.title not in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
                         writer.writerow(r.to_csv_row())
 
     def write_shows_to_csv(self):
@@ -128,10 +121,6 @@ class Graph:
             writer = csv.writer(f)
             writer.writerow(['title'])
             for title in getTitles():
-
-                if self.nodes.get(title) is not None and self.nodes.get(title).is_too_referenced():
-                    continue
-
                 if title not in TV_SHOW_DENYLIST:
                     writer.writerow([title])
 
