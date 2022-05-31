@@ -107,7 +107,7 @@ class Graph:
                     continue
 
                 for r in n.references:
-                    if not r.reference_title in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
+                    if r.reference_title not in TV_SHOW_DENYLIST and r.title not in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
                         writer.writerow(r.to_csv_row())
 
 
