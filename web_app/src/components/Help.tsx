@@ -36,7 +36,7 @@ function Help() {
           <div className="my-1 mb-3">
             <p>ie.</p>
             <Figure className="col-12 px-5">
-              <Figure.Image src="example.png" />
+              <Figure.Image src={process.env.PUBLIC_URL + "/example.png"} />
               <Figure.Caption>
                 Nulla vitae elit libero, a pharetra augue mollis interdum Nulla
                 vitae elit libero, a pharetra augue mollis interdum. Nulla vitae

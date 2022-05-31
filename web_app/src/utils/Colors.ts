@@ -1,4 +1,4 @@
-export const GREY = "#DDDDDD";
+export const GREY = "rgba(200, 200, 200, 0.2)";
 export const NAVY = "#072448";
 export const RED = "#CC2936";
 export const ORANGE = "#F5992A";

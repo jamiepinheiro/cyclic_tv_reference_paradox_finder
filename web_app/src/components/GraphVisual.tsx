@@ -105,7 +105,8 @@ function GraphVisual({
             selectedCycle?.nodes.has(n.id)
         );
       } else {
-        graph.current.zoomToFit(500, -300, (n: any) => n.x && n.y);
+        graph.current.centerAt(0, 0, 500);
+        graph.current.zoom(3, 500);
       }
     }
   }, [graph, selectedNode, selectedCycle]);
@@ -114,7 +115,7 @@ function GraphVisual({
     <ForceGraph2D
       ref={graph}
       graphData={graphData}
-      linkDirectionalArrowLength={4}
+      linkDirectionalArrowLength={2}
       linkDirectionalArrowRelPos={1}
       onNodeClick={(node, _) => {
         onNodeClick(node.id!.toString());
