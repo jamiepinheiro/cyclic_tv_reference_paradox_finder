@@ -1,9 +1,19 @@
 import os
 import jsonpickle
 import csv
-from constants import SUBTITLES_DIR, INDEX_DIR, REFERENCE_GRAPH, TV_SHOW_DENYLIST, REFERENCES_CSV, REFERENCES_DENYLIST_CSV, UNIVERSES
+from constants import SUBTITLES_DIR, INDEX_DIR, REFERENCE_GRAPH, TV_SHOW_DENYLIST, REFERENCES_CSV, REFERENCES_DENYLIST_CSV, UNIVERSES, TV_SHOWS_CSV
 from whoosh import index
 from whoosh.qparser import QueryParser, query
+
+
+def getTitles():
+    titles = set()
+    for file in os.listdir(SUBTITLES_DIR):
+        if '.srt' in file:
+            title = file.split('_')[0]
+            titles.add(title)
+
+    return titles
 
 
 class Reference:
@@ -59,15 +69,17 @@ class Node:
         self.title = title
         self.references = []
 
+    def is_too_referenced(self):
+        # Skip shows with lots of references, too many false positives to clean
+        return len(self.references) > 100
+
 
 class Graph:
     def __init__(self):
         # create a node for each media item
         self.nodes = {}
-        for file in os.listdir(SUBTITLES_DIR):
-            if '.srt' in file:
-                title = file.split('_')[0]
-                self.nodes[title] = Node(title)
+        for title in getTitles():
+            self.nodes[title] = Node(title)
 
     def find_references(self):
         ix = index.open_dir(INDEX_DIR)
@@ -102,13 +114,26 @@ class Graph:
             writer = csv.writer(f)
             writer.writerow(Reference.CSV_HEADER)
             for n in self.nodes.values():
-                # Skip shows with lots of references, too many false positives to clean
-                if len(n.references) > 100:
+                if n.is_too_referenced():
                     continue
 
                 for r in n.references:
-                    if r.reference_title not in TV_SHOW_DENYLIST and r.title not in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
+                    if r.reference_title not in TV_SHOW_DENYLIST and r.title not in TV_SHOW_DENYLIST and (False if self.nodes.get(r.title) is None else not self.nodes.get(r.title).is_too_referenced()) and not r.is_intrauniverse_reference() and r not in reference_denylist:
                         writer.writerow(r.to_csv_row())
+
+    def write_shows_to_csv(self):
+        tvShows = set()
+
+        with open(TV_SHOWS_CSV, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(['title'])
+            for title in getTitles():
+
+                if self.nodes.get(title) is not None and self.nodes.get(title).is_too_referenced():
+                    continue
+
+                if title not in TV_SHOW_DENYLIST:
+                    writer.writerow([title])
 
 
 def main():
@@ -124,6 +149,7 @@ def main():
             g = jsonpickle.decode(f.read())
 
     g.write_references_to_csv()
+    g.write_shows_to_csv()
 
 
 if __name__ == "__main__":
