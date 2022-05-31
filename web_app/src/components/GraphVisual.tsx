@@ -105,9 +105,7 @@ function GraphVisual({
             selectedCycle?.nodes.has(n.id)
         );
       } else {
-        //graph.current.centerAt(0, 0, 500);
-        //graph.current.zoom(3, 500);
-        graph.current.zoomToFit(500, -500, (n: any) => n.x && n.y);
+        graph.current.zoomToFit(500, -200, (n: any) => n.x && n.y);
       }
     }
   }, [graph, selectedNode, selectedCycle]);
