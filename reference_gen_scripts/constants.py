@@ -109,20 +109,32 @@ TV_SHOW_DENYLIST = set([
     'Heels',
     'Medium',
     'Dexter',
+    'The Fosters',
+    'Fairy Tail',
+    'Ballers',
+    'The Good Wife',
+    'Misfits',
+    'Adventure Time',
+    'Serve and Protect'
+    'Ancient Aliens',
+    'The Last Man on Earth'
 ])
 
 # Shows are part of the same 'universe', not really referencing eachother
 UNIVERSES = [
     set(['Naruto', 'Naruto Shippūden']),
     set(['The Book of Boba Fett', 'The Mandalorian']),
-    set(['Gotham', 'The Flash', 'Titans', 'Arrow', 'Supergirl', 'Superman & Lois',
-        'DC\'s Legends of Tomorrow', 'Smallville', 'Peacemaker', 'Teen Titans Go!']),
+    set(['Gotham', 'The Flash', 'Titans', 'Teen Titans', 'Arrow', 'Supergirl', 'Superman & Lois',
+        'DC\'s Legends of Tomorrow', 'Smallville', 'Peacemaker', 'Teen Titans Go!', 'Batwoman', 'Lois & Clark: The New Adventures of Superman']),
     set(['Fear the Walking Dead', 'The Walking Dead']),
     set(['The Simpsons', 'Family Guy', 'Bob\'s Burgers']),
     set(['Ben 10', 'Ben 10: Ultimate Alien']),
-    set(['NCIS', 'NCIS: Los Angeles']),
+    set(['NCIS', 'NCIS: Los Angeles', 'NCIS: New Orleans']),
     set(['The Big Bang Theory', 'Young Sheldon']),
     set(['Dragon Ball Super', 'Dragon Ball Absalon', 'Dragon Ball Z']),
     set(['Better Call Saul', 'Breaking Bad']),
     set(['Halo: Nightfall', 'Halo']),
+    set(['Star Trek: Enterprise', 'Star Trek: The Next Generation']),
+    set(['iCarly', 'Sam & Cat']),
+    set(['Magnum P.I.', 'Magnum, P.I.'])
 ]
