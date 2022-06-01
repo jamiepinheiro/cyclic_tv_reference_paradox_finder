@@ -11,7 +11,7 @@
 This project finds these paradoxes through looking through subtitles files of popular TV shows. It is divided into two sections:
 
 ## Reference Gen Scripts
-A set of python scripts to get the subtitles, and eventually output a CSV file of TV show references to be used in a web app.
+A set of python scripts to get the subtitles, and eventually output a CSV file of all TV show references found to be displayed in a web app.
 
 | Script | Explanation |
 | -----  | ----------- |
