@@ -14,6 +14,7 @@ import ReactGA from "react-ga";
 import { GetCycles } from "./utils/GraphAlgo";
 import { CleanupReference } from "./utils/References";
 import MadeBy from "./components/MadeBy";
+var mobile = require("is-mobile");
 
 ReactGA.initialize("UA-152743685-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -120,6 +121,16 @@ function App() {
       setTvShowSelected(null);
     }
   }, [tab]);
+
+  if (mobile()) {
+    return (
+      <div className="h-100 d-flex align-items-center justify-content-center">
+        <p className="m-3 px-3">
+          Unfortunately this site's content does not fit well on a mobile
+          device, please view on a larger screen.
+        </p>
+      </div>
+    );
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
