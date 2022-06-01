@@ -38,11 +38,12 @@ function Help() {
             <Figure className="col-12 px-5">
               <Figure.Image src={process.env.PUBLIC_URL + "/example.png"} />
               <Figure.Caption>
-                Nulla vitae elit libero, a pharetra augue mollis interdum Nulla
-                vitae elit libero, a pharetra augue mollis interdum. Nulla vitae
-                elit libero, a pharetra augue mollis interdum. Nulla vitae elit
-                libero, a pharetra augue mollis interdum. Nulla vitae elit
-                libero, a pharetra augue mollis interdum..
+                Here, in the Simpsons' fictional universe, Rick and Morty exists
+                as a TV show (shown by the reference). However, in the Rick and
+                Morty fictional universe, The Simpsons also exists as a TV show.
+                These two references create a cycle where each depends on the
+                other being fictional in their respective universe,m which
+                cannot be simultaneously true - a paradox!
               </Figure.Caption>
             </Figure>
           </div>
