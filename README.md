@@ -6,7 +6,7 @@ _Cyclic TV Reference Paradoxes_ occur when a chain of TV show references contain
 >
 > ![The Simpson's referenceing Rick and Morty, and Rick and Morty referencing The Simpson's](https://user-images.githubusercontent.com/13925440/171424139-e3c2a23c-e3f1-4913-88b3-d83fcc6f9f63.png)
 >
-> Here, in the Simpsons' fictional universe, Rick and Morty exists as a TV show (shown by the reference). However, in the Rick and Morty fictional universe, The Simpsons also exists as a TV show. These two references create a cycle where each depends on the other being fictional in their respective universe,m which cannot be simultaneously true - a paradox!
+> Here, in the Simpsons' fictional universe, Rick and Morty exists as a TV show (shown by the reference). However, in the Rick and Morty fictional universe, The Simpsons also exists as a TV show. These two references create a cycle where each depends on the other being fictional in their respective universe, which cannot be simultaneously true - a paradox!
 
 This project finds these paradoxes through looking through subtitles files of popular TV shows. It is divided into two sections:
 

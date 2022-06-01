@@ -29,8 +29,8 @@ function Help() {
         </Modal.Header>
         <Modal.Body>
           <p>
-            <b>Cyclic TV Reference Paradoxes</b> occur when a chain of TV
-            references loop in on themselves.
+            <i>Cyclic TV Reference Paradoxes</i> occur when a chain of TV show
+            references contain a cycle.
           </p>
 
           <div className="my-1 mb-3">
@@ -42,8 +42,8 @@ function Help() {
                 as a TV show (shown by the reference). However, in the Rick and
                 Morty fictional universe, The Simpsons also exists as a TV show.
                 These two references create a cycle where each depends on the
-                other being fictional in their respective universe,m which
-                cannot be simultaneously true - a paradox!
+                other being fictional in their respective universe, which cannot
+                be simultaneously true - a paradox!
               </Figure.Caption>
             </Figure>
           </div>
@@ -54,19 +54,21 @@ function Help() {
             viewed by clicking on individual nodes in this graph.
             <br />
             <br />
-            <i>Want to learn more?</i>
-            <br />
-            Check out this <a href="https://asdoifjosij.com">blog post</a>.
+            <i>Want to learn more?</i> Check out this{" "}
+            <a href="https://jamiepinheiro.com">blog post</a>.
           </p>
         </Modal.Body>
         <Modal.Footer className="justify-content-between">
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://github.com/jamiepinheiro/cyclic_tv_reference_paradox_finder/issues/new"
-          >
-            Problem? Open an issue.
-          </a>
+          <div>
+            Problem? Suggestion?{" "}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/jamiepinheiro/cyclic_tv_reference_paradox_finder/issues/new"
+            >
+              Open an issue.
+            </a>
+          </div>
           <Button onClick={() => setShowHelp(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
