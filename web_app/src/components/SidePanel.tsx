@@ -6,13 +6,21 @@ import TvShowInspector from "./TvShowInspector";
 
 type Props = {
   tvShow: TvShow | null;
+  setTvShow: (tvShow: TvShow | null) => void;
   graph: Graph;
   cycle: string[] | null;
   setCycle: (cycle: string[] | null) => void;
   setTab: (tab: string) => void;
 };
 
-function SidePanel({ tvShow, graph, cycle, setCycle, setTab }: Props) {
+function SidePanel({
+  tvShow,
+  setTvShow,
+  graph,
+  cycle,
+  setCycle,
+  setTab
+}: Props) {
   return (
     <Card id="side-panel" className="h-100 overflow-hidden">
       <Tabs
@@ -28,7 +36,11 @@ function SidePanel({ tvShow, graph, cycle, setCycle, setTab }: Props) {
           eventKey={TvShowInspector.toString()}
           title="TV Show Inspector"
         >
-          <TvShowInspector tvShow={tvShow} />
+          <TvShowInspector
+            tvShow={tvShow}
+            setTvShow={setTvShow}
+            tvShowOptions={Array.from(graph.tvShows.values())}
+          />
         </Tab>
         <Tab
           className="h-100 overflow-auto"

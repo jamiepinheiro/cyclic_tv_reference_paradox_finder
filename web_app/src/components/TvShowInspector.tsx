@@ -1,14 +1,16 @@
 import "../css/index.css";
-import { Accordion, Card, ListGroup, Tab, Tabs } from "react-bootstrap";
+import { Accordion, Button, Card, ListGroup, Tab, Tabs } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 import { useEffect, useState } from "react";
 
 type Props = {
   tvShow: TvShow | null;
+  setTvShow: (tvShow: TvShow | null) => void;
+  tvShowOptions: TvShow[];
 };
 
-function TvShowInspector({ tvShow }: Props) {
+function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
   const [activeKey, setActiveKey] = useState(
     !tvShow ? "By" : tvShow.referencedBy.size > 0 ? "By" : "To"
   );
@@ -22,8 +24,20 @@ function TvShowInspector({ tvShow }: Props) {
       <div className="p-3">
         <h5>Select a TV show</h5>
         <p>
-          Inspect a TV Show's references by clicking on a node in the graph.
+          Inspect a TV Show's references by clicking on a node in the graph or
+          selecting one below.
         </p>
+        <ListGroup>
+          {tvShowOptions.map(tvShowOption => (
+            <ListGroup.Item
+              key={tvShowOption.title}
+              onClick={() => setTvShow(tvShowOption)}
+              action
+            >
+              {tvShowOption.title}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
       </div>
     );
   }
@@ -75,6 +89,13 @@ function TvShowInspector({ tvShow }: Props) {
 
   return (
     <div className="p-3">
+      <Button
+        className="mb-3"
+        variant="secondary"
+        onClick={() => setTvShow(null)}
+      >
+        Back
+      </Button>
       <h5>{tvShow.title}</h5>
       <ListGroup className="my-3">
         <ListGroup.Item>

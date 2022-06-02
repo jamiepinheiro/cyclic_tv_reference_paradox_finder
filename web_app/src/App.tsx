@@ -145,6 +145,7 @@ function App() {
           <div className="foreground">
             <SidePanel
               tvShow={tvShowSelected}
+              setTvShow={setTvShowSelected}
               cycle={cycle}
               setCycle={setCycle}
               graph={graph}
