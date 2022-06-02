@@ -74,7 +74,7 @@ function TvShowInspector({ tvShow }: Props) {
   }
 
   return (
-    <div className="p-3 h-100 overflow-hidden">
+    <div className="p-3">
       <h5>{tvShow.title}</h5>
       <ListGroup className="my-3">
         <ListGroup.Item>
@@ -87,7 +87,7 @@ function TvShowInspector({ tvShow }: Props) {
         </ListGroup.Item>
       </ListGroup>
 
-      <Card id="panel" className="p-2 h-100">
+      <Card id="panel" className="p-2">
         <Tabs
           activeKey={activeKey}
           onSelect={e => {
@@ -99,7 +99,6 @@ function TvShowInspector({ tvShow }: Props) {
           className="mb-2 pb-1"
         >
           <Tab
-            className="overflow-auto"
             eventKey={"By"}
             title="Referenced By"
             disabled={tvShow.referencedBy.size === 0}
@@ -107,7 +106,6 @@ function TvShowInspector({ tvShow }: Props) {
             {References(tvShow.referencedBy)}
           </Tab>
           <Tab
-            className="h-100 overflow-auto"
             eventKey={"To"}
             title="References To"
             disabled={tvShow.referencesTo.size === 0}

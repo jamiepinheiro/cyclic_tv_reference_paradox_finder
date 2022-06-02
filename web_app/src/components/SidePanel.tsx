@@ -24,7 +24,7 @@ function SidePanel({ tvShow, graph, cycle, setCycle, setTab }: Props) {
         defaultActiveKey={TvShowInspector.toString()}
       >
         <Tab
-          className="h-100 overflow-hidden"
+          className="h-100 overflow-auto"
           eventKey={TvShowInspector.toString()}
           title="TV Show Inspector"
         >
