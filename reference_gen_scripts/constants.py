@@ -345,7 +345,8 @@ UNIVERSES = [
     set(['Better Call Saul', 'Breaking Bad']),
     set(['Halo: Nightfall', 'Halo']),
     set(['Star Trek: Enterprise', 'Star Trek', 'Star Trek: Picard', 'Star Trek: The Next Generation'
-        'Star Trek: The Next Generation', 'Star Trek: Discovery', 'Star Trek']),
+         'Star Trek: The Next Generation', 'Star Trek: Discovery', 'Star Trek', 'Star Trek: Voyager',
+         'Star Trek: Deep Space Nine']),
     set(['iCarly', 'Sam & Cat']),
     set(['Magnum P.I.', 'Magnum, P.I.']),
     set(['American Horror Stories', 'American Horror Story']),
