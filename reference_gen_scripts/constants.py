@@ -344,7 +344,7 @@ UNIVERSES = [
     set(['Dragon Ball Super', 'Dragon Ball Absalon', 'Dragon Ball Z']),
     set(['Better Call Saul', 'Breaking Bad']),
     set(['Halo: Nightfall', 'Halo']),
-    set(['Star Trek: Enterprise', 'Star Trek', 'Star Trek: Picard'
+    set(['Star Trek: Enterprise', 'Star Trek', 'Star Trek: Picard', 'Star Trek: The Next Generation'
         'Star Trek: The Next Generation', 'Star Trek: Discovery', 'Star Trek']),
     set(['iCarly', 'Sam & Cat']),
     set(['Magnum P.I.', 'Magnum, P.I.']),
