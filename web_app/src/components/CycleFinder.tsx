@@ -15,7 +15,7 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
   function SelectCycle() {
     return (
       <div className="p-3">
-        <h5>{graph.cycles.length} cyclic references discovered</h5>
+        <h5>{graph.cycles.length} Cyclic TV Reference Paradoxes discovered</h5>
         <p>
           Click on a cycle below to view the exact references and visualize them
           on the graph.

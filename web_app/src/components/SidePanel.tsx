@@ -33,7 +33,7 @@ function SidePanel({ tvShow, graph, cycle, setCycle, setTab }: Props) {
         <Tab
           className="h-100 overflow-auto"
           eventKey={CycleFinder.toString()}
-          title="Cyclic Reference Finder"
+          title="Cyclic References Finder"
         >
           <CycleFinder graph={graph} cycle={cycle} setCycle={setCycle} />
         </Tab>
