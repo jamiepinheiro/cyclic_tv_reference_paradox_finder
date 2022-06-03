@@ -30,7 +30,9 @@ function Help() {
         <Modal.Body>
           <p>
             <i>Cyclic TV Reference Paradoxes</i> occur when a chain of fictional
-            TV show references contain a cycle.
+            TV show references form a cycle. Each show’s reality depends on
+            another being fictional, so a cycle of these dependencies is a
+            paradox.
           </p>
 
           <div className="my-1 mb-3">
@@ -55,7 +57,7 @@ function Help() {
             <br />
             <br />
             Want to learn more? Check out this{" "}
-            <a href="https://jamiepinheiro.com">blog post</a>.
+            <a href="https://medium.com/@jamiepinheiro">blog post</a>.
           </p>
         </Modal.Body>
         <Modal.Footer className="justify-content-between">
