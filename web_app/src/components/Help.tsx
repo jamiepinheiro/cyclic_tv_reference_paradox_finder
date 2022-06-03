@@ -43,7 +43,7 @@ function Help() {
                 Morty fictional universe, The Simpsons also exists as a TV show.
                 These two references create a cycle where each depends on the
                 other being fictional in their respective universe, which cannot
-                be simultaneously true - a paradox!
+                both be true simultaneously - a paradox!
               </Figure.Caption>
             </Figure>
           </div>
@@ -54,7 +54,7 @@ function Help() {
             viewed by clicking on individual nodes in this graph.
             <br />
             <br />
-            <i>Want to learn more?</i> Check out this{" "}
+            Want to learn more? Check out this{" "}
             <a href="https://jamiepinheiro.com">blog post</a>.
           </p>
         </Modal.Body>
