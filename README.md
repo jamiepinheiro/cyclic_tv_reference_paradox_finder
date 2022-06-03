@@ -1,6 +1,6 @@
 # Cyclic Tv Reference Paradox Finder
 
-_Cyclic TV Reference Paradoxes_ occur when a chain of TV show references contain a cycle.
+_Cyclic TV Reference Paradoxes_ occur when a chain of fictional TV show references contain a cycle.
 
 > ie.
 >
