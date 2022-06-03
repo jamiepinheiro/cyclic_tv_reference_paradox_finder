@@ -1,5 +1,13 @@
 import "../css/index.css";
-import { Accordion, Button, Card, ListGroup, Tab, Tabs } from "react-bootstrap";
+import {
+  Accordion,
+  Badge,
+  Button,
+  Card,
+  ListGroup,
+  Tab,
+  Tabs
+} from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 import { useEffect, useState } from "react";
@@ -32,9 +40,15 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
             <ListGroup.Item
               key={tvShowOption.title}
               onClick={() => setTvShow(tvShowOption)}
+              className="d-flex justify-content-between align-items-start"
               action
             >
-              {tvShowOption.title}
+              <div>{tvShowOption.title}</div>
+              <Badge bg="primary" pill>
+                {tvShowOption.referencedBy.size}
+                {" | "}
+                {tvShowOption.referencesTo.size}
+              </Badge>
             </ListGroup.Item>
           ))}
         </ListGroup>
