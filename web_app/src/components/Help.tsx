@@ -29,8 +29,8 @@ function Help() {
         </Modal.Header>
         <Modal.Body>
           <p>
-            <i>Cyclic TV Reference Paradoxes</i> occur when a chain of TV show
-            references contain a cycle.
+            <i>Cyclic TV Reference Paradoxes</i> occur when a chain of fictional
+            TV show references contain a cycle.
           </p>
 
           <div className="my-1 mb-3">
