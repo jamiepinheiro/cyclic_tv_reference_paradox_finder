@@ -35,7 +35,7 @@ function CycleFinder({ graph, cycle, setCycle }: Props) {
                   </small>
                 ))}
               </div>
-              <Badge bg="primary" pill>
+              <Badge bg="info" pill>
                 {cycle.length}
               </Badge>
             </ListGroup.Item>

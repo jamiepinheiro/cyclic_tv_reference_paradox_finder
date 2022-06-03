@@ -44,7 +44,7 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
               action
             >
               <div>{tvShowOption.title}</div>
-              <Badge bg="primary" pill>
+              <Badge bg="info" pill>
                 {tvShowOption.referencedBy.size}
                 {" | "}
                 {tvShowOption.referencesTo.size}
