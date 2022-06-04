@@ -127,7 +127,18 @@ function App() {
       <div className="h-100 d-flex align-items-center justify-content-center">
         <p className="m-3 px-3">
           Unfortunately this site's content does not fit well on a mobile
-          device, please view on a larger screen.
+          device, please view it later on a larger screen.
+          <br />
+          <br />
+          In the meantime, checkout this{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://medium.com/@jamiepinheiro/searching-for-cyclic-tv-reference-paradoxes-d125ff014279"
+          >
+            blog post
+          </a>{" "}
+          for more on this project.
         </p>
       </div>
     );

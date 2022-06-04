@@ -57,7 +57,14 @@ function Help() {
             <br />
             <br />
             Want to learn more? Check out this{" "}
-            <a href="https://medium.com/@jamiepinheiro">blog post</a>.
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://medium.com/@jamiepinheiro/searching-for-cyclic-tv-reference-paradoxes-d125ff014279"
+            >
+              blog post
+            </a>
+            .
           </p>
         </Modal.Body>
         <Modal.Footer className="justify-content-between">
