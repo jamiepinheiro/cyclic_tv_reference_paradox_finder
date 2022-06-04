@@ -35,10 +35,12 @@ function Help() {
             paradox.
           </p>
 
-          <div className="my-1 mb-3">
-            <p>ie.</p>
-            <Figure className="col-12 px-5">
-              <Figure.Image src={process.env.PUBLIC_URL + "/example.png"} />
+          <div className="mt-5 mb-3">
+            <Figure className="px-5">
+              <Figure.Image
+                className="px-5"
+                src={process.env.PUBLIC_URL + "/example.png"}
+              />
               <Figure.Caption>
                 Here, in the Simpsons' fictional universe, Rick and Morty exists
                 as a TV show (shown by the reference). However, in the Rick and
@@ -50,10 +52,11 @@ function Help() {
             </Figure>
           </div>
           <p>
-            Using subtitle files, a large dataset of TV show references were
-            generated. This tool displays this dataset in a graph where the
-            nodes are TV shows, and the edges are references. References can be
-            viewed by clicking on individual nodes in this graph.
+            Using subtitles, a large dataset of TV references were generated.
+            This tool displays this dataset in a graph where the nodes are TV
+            shows, and the edges are references. References can be viewed by
+            clicking on individual nodes in this graph. Cycles can be selected
+            to inspect a specific instance of this paradox.
             <br />
             <br />
             Want to learn more? Check out this{" "}
