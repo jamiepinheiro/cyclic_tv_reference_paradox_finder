@@ -4,6 +4,8 @@ import {
   Badge,
   Button,
   Card,
+  Container,
+  Form,
   ListGroup,
   Tab,
   Tabs
@@ -23,6 +25,8 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
     !tvShow ? "By" : tvShow.referencedBy.size > 0 ? "By" : "To"
   );
 
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     setActiveKey(!tvShow ? "By" : tvShow.referencedBy.size > 0 ? "By" : "To");
   }, [tvShow]);
@@ -35,22 +39,42 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
           Inspect a TV Show's references by clicking on a node in the graph or
           selecting one below.
         </p>
+        <Container className="my-3">
+          <Form.Control
+            size="sm"
+            type="text"
+            placeholder="Search for a TV show..."
+            onChange={e => setSearch(e.target.value)}
+            value={search}
+          />
+        </Container>
+
         <ListGroup>
-          {tvShowOptions.map(tvShowOption => (
-            <ListGroup.Item
-              key={tvShowOption.title}
-              onClick={() => setTvShow(tvShowOption)}
-              className="d-flex justify-content-between align-items-start"
-              action
-            >
-              <div>{tvShowOption.title}</div>
-              <Badge bg="info" pill>
-                {tvShowOption.referencedBy.size}
-                {" | "}
-                {tvShowOption.referencesTo.size}
-              </Badge>
-            </ListGroup.Item>
-          ))}
+          {tvShowOptions
+            .filter(tvshowOption => {
+              if (search.replace(/\s/g, "") === "") {
+                return true;
+              } else {
+                return tvshowOption.title
+                  .toLowerCase()
+                  .includes(search.toLowerCase());
+              }
+            })
+            .map(tvShowOption => (
+              <ListGroup.Item
+                key={tvShowOption.title}
+                onClick={() => setTvShow(tvShowOption)}
+                className="d-flex justify-content-between align-items-start"
+                action
+              >
+                <div>{tvShowOption.title}</div>
+                <Badge bg="info" pill>
+                  {tvShowOption.referencedBy.size}
+                  {" | "}
+                  {tvShowOption.referencesTo.size}
+                </Badge>
+              </ListGroup.Item>
+            ))}
         </ListGroup>
       </div>
     );
