@@ -326,6 +326,7 @@ TV_SHOW_DENYLIST = set([
     'Maid',
     'Tehran',
     'Dickinson',
+    'Band of Brothers'
 ])
 
 # Shows are part of the same 'universe', not really referencing eachother
