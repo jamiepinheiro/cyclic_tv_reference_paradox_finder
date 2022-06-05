@@ -13,6 +13,8 @@ import {
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
 import { useEffect, useState } from "react";
+import { BiErrorCircle } from "react-icons/bi";
+import newGithubIssueUrl from "new-github-issue-url";
 
 type Props = {
   tvShow: TvShow | null;
@@ -103,7 +105,10 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
             <Accordion.Body className="p-1">
               <ListGroup variant="flush">
                 {Array.from(showReferences).map((reference, i) => (
-                  <ListGroup.Item key={i} className="py-1 px-2">
+                  <ListGroup.Item
+                    key={i}
+                    className="py-1 px-2 d-flex justify-content-between align-items-start"
+                  >
                     <div>
                       <small className="text-muted">
                         <code>
@@ -113,8 +118,21 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
                         {reference.start_time}
                         <br></br>
                       </small>
+                      <small>{reference.text}</small>
                     </div>
-                    <small>{reference.text}</small>
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={newGithubIssueUrl({
+                        user: "jamiepinheiro",
+                        repo: "cyclic_tv_reference_paradox_finder",
+                        title: `Incorrect reference between ${reference.title} and ${reference.title}`,
+                        body: `Reference Data:\n ${JSON.stringify(reference)}`,
+                        labels: ["incorrect-reference"]
+                      })}
+                    >
+                      <BiErrorCircle className="p1" />
+                    </a>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
