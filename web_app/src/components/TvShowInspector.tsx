@@ -132,6 +132,7 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
                       )}
                     >
                       <a
+                        className="text-muted"
                         target="_blank"
                         rel="noreferrer"
                         href={newGithubIssueUrl({
