@@ -126,7 +126,7 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
                       href={newGithubIssueUrl({
                         user: "jamiepinheiro",
                         repo: "cyclic_tv_reference_paradox_finder",
-                        title: `Incorrect reference between ${reference.title} and ${reference.title}`,
+                        title: `Incorrect reference between ${reference.reference_title} and ${reference.title}`,
                         body: `Reference Data:\n ${JSON.stringify(reference)}`,
                         labels: ["incorrect-reference"]
                       })}
