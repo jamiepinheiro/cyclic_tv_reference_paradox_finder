@@ -120,7 +120,7 @@ class Graph:
         with open(TV_SHOWS_CSV, 'w') as f:
             writer = csv.writer(f)
             writer.writerow(['title'])
-            for title in getTitles():
+            for title in sorted(getTitles()):
                 if title not in TV_SHOW_DENYLIST:
                     writer.writerow([title])
 
