@@ -7,8 +7,10 @@ import {
   Container,
   Form,
   ListGroup,
+  OverlayTrigger,
   Tab,
-  Tabs
+  Tabs,
+  Tooltip
 } from "react-bootstrap";
 import { TvShow } from "../types/TvShow";
 import { Reference } from "../types/Reference";
@@ -120,19 +122,31 @@ function TvShowInspector({ tvShow, setTvShow, tvShowOptions }: Props) {
                       </small>
                       <small>{reference.text}</small>
                     </div>
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      href={newGithubIssueUrl({
-                        user: "jamiepinheiro",
-                        repo: "cyclic_tv_reference_paradox_finder",
-                        title: `Incorrect reference between ${reference.reference_title} and ${reference.title}`,
-                        body: `Reference Data:\n ${JSON.stringify(reference)}`,
-                        labels: ["incorrect-reference"]
-                      })}
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 100, hide: 200 }}
+                      overlay={props => (
+                        <Tooltip id="button-tooltip" {...props}>
+                          Report this reference
+                        </Tooltip>
+                      )}
                     >
-                      <BiErrorCircle className="p1" />
-                    </a>
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={newGithubIssueUrl({
+                          user: "jamiepinheiro",
+                          repo: "cyclic_tv_reference_paradox_finder",
+                          title: `Incorrect reference between ${reference.reference_title} and ${reference.title}`,
+                          body: `Reference Data:\n ${JSON.stringify(
+                            reference
+                          )}`,
+                          labels: ["incorrect-reference"]
+                        })}
+                      >
+                        <BiErrorCircle className="p1" />
+                      </a>
+                    </OverlayTrigger>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
