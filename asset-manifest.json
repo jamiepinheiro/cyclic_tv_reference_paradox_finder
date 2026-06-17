@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/cyclic_tv_reference_paradox_finder/static/css/main.a2945099.css",
-    "main.js": "/cyclic_tv_reference_paradox_finder/static/js/main.aeca3ca7.js",
-    "index.html": "/cyclic_tv_reference_paradox_finder/index.html",
-    "main.a2945099.css.map": "/cyclic_tv_reference_paradox_finder/static/css/main.a2945099.css.map",
-    "main.aeca3ca7.js.map": "/cyclic_tv_reference_paradox_finder/static/js/main.aeca3ca7.js.map"
+    "main.css": "/static/css/main.60e2a85b.css",
+    "main.js": "/static/js/main.d242d1a9.js",
+    "index.html": "/index.html",
+    "main.60e2a85b.css.map": "/static/css/main.60e2a85b.css.map",
+    "main.d242d1a9.js.map": "/static/js/main.d242d1a9.js.map"
   },
   "entrypoints": [
-    "static/css/main.a2945099.css",
-    "static/js/main.aeca3ca7.js"
+    "static/css/main.60e2a85b.css",
+    "static/js/main.d242d1a9.js"
   ]
 }
