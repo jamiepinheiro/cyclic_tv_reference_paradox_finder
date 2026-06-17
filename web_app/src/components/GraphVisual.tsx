@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ForceGraph2D } from "react-force-graph";
 import { GraphData } from "../types/GraphData";
 import { BLUE, GREEN, GREY, NAVY, ORANGE, RED, WHITE } from "../utils/Colors";
@@ -86,6 +86,31 @@ function GraphVisual({
   }
 
   const graph = useRef<any>();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState<{ width: number; height: number }>({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+
+  // Keep the canvas sized to its container (works for both the desktop
+  // side-by-side layout and the stacked mobile layout).
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) {
+      return;
+    }
+    const update = () =>
+      setSize({ width: el.clientWidth, height: el.clientHeight });
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
   useEffect(() => {
     if (graph.current) {
       graph.current.zoom(4);
@@ -108,11 +133,17 @@ function GraphVisual({
         graph.current.zoomToFit(500, -200, (n: any) => n.x && n.y);
       }
     }
-  }, [graph, selectedNode, selectedCycle]);
+  }, [graph, selectedNode, selectedCycle, size]);
 
   return (
+    <div
+      ref={containerRef}
+      style={{ width: "100%", height: "100%", overflow: "hidden" }}
+    >
     <ForceGraph2D
       ref={graph}
+      width={size.width}
+      height={size.height}
       graphData={graphData}
       linkDirectionalArrowLength={2}
       linkDirectionalArrowRelPos={1}
@@ -132,6 +163,7 @@ function GraphVisual({
       minZoom={1}
       maxZoom={10}
     ></ForceGraph2D>
+    </div>
   );
 }
 

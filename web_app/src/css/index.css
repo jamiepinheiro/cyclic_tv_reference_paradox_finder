@@ -81,3 +81,42 @@ body.modal-open > :not(.modal) {
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
+
+/* Mobile / small-screen layout: stack the graph on top and the panel below */
+@media (max-width: 768px) {
+  .background {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45%;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .foreground {
+    top: 45%;
+    left: 0;
+    width: 100%;
+    height: 55%;
+  }
+
+  /* Give the help button a tappable, non-overlapping target */
+  #help h1 {
+    font-size: 1.6rem;
+    margin: 0;
+  }
+
+  /* Keep the "Made by" credit from covering panel controls */
+  #madeBy {
+    z-index: 3;
+  }
+
+  /* Tighten side-panel padding so content fits narrow screens */
+  #side-panel .p-3 {
+    padding: 0.75rem !important;
+  }
+}
+
+/* The react-force-graph canvas should never overflow its container */
+.background canvas {
+  max-width: 100%;
+}
