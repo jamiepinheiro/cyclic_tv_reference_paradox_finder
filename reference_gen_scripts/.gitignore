@@ -10,3 +10,16 @@ __pycache__/*
 references.csv
 reference_graph
 tv_shows.csv
+
+# LLM reference-validation cache (incremental runs reuse verdicts)
+llm_reference_cache.json
+llm_reference_cache.json.tmp
+subliminal.cache.dbm
+subliminal.cache.dbm.*
+cycles_report.txt
+.venv
+.venv/*
+
+# Subtitle corpus transfer landing zone (large, not committed)
+incoming
+incoming/*

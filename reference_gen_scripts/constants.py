@@ -8,7 +8,12 @@ REFERENCES_CSV = 'references.csv'
 REFERENCES_DENYLIST_CSV = 'references_denylist.csv'
 TV_SHOWS_CSV = 'tv_shows.csv'
 
-# Show name is too common, will be used not as a reference, restrict which shows can be 'referenced'
+# DEPRECATED: This hand-maintained list of 'too common' show names is no longer
+# used by the pipeline. gen_output_data.py now keeps every show and validates
+# each candidate reference with an LLM (see llm_reference_check.py), which can
+# distinguish a genuine TV-show reference from coincidental wording (e.g.
+# "we are lost" vs. "did you watch last night's Lost?"). Kept here only for
+# historical reference / potential evaluation.
 TV_SHOW_DENYLIST = set([
     'Bleach',
     'Law & Order',

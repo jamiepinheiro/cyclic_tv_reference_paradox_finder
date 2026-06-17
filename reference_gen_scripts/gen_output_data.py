@@ -1,9 +1,10 @@
 import os
 import jsonpickle
 import csv
-from constants import SUBTITLES_DIR, INDEX_DIR, REFERENCE_GRAPH, TV_SHOW_DENYLIST, REFERENCES_CSV, REFERENCES_DENYLIST_CSV, UNIVERSES, TV_SHOWS_CSV
+from constants import SUBTITLES_DIR, INDEX_DIR, REFERENCE_GRAPH, REFERENCES_CSV, REFERENCES_DENYLIST_CSV, UNIVERSES, TV_SHOWS_CSV
 from whoosh import index
 from whoosh.qparser import QueryParser, query
+import llm_reference_check
 
 
 def getTitles():
@@ -82,8 +83,10 @@ class Graph:
         qp = QueryParser('text', schema=ix.schema)
 
         for title, node in self.nodes.items():
-            if title in TV_SHOW_DENYLIST:
-                continue
+            # Note: we intentionally no longer skip 'too common' show names
+            # (the old TV_SHOW_DENYLIST). Instead, candidate references are
+            # validated by an LLM in write_references_to_csv, which can tell
+            # an actual TV-show reference from coincidental wording.
             print('Finding references for %s' % title)
             q = qp.parse('"%s"' % title)
 
@@ -106,13 +109,29 @@ class Graph:
             for row in reader:
                 reference_denylist.add(Reference(*row))
 
+        # Gather candidate references, applying the cheap structural filters
+        # first (intra-universe / manual denylist). The 'too common show name'
+        # filtering is no longer done by a hand-maintained list; instead an LLM
+        # decides whether each candidate is a genuine TV-show reference.
+        candidates = []
+        for n in self.nodes.values():
+            for r in n.references:
+                if not r.is_intrauniverse_reference() and r not in reference_denylist:
+                    candidates.append(r)
+
+        print('Validating %d candidate references with the LLM...' % len(candidates))
+
+        def progress(done, total):
+            print('  LLM validated %d/%d candidates' % (done, total))
+
+        kept = llm_reference_check.filter_references(candidates, on_progress=progress)
+        print('Kept %d of %d references after LLM validation' % (len(kept), len(candidates)))
+
         with open(REFERENCES_CSV, 'w') as f:
             writer = csv.writer(f)
             writer.writerow(Reference.CSV_HEADER)
-            for n in self.nodes.values():
-                for r in n.references:
-                    if r.reference_title not in TV_SHOW_DENYLIST and r.title not in TV_SHOW_DENYLIST and not r.is_intrauniverse_reference() and r not in reference_denylist:
-                        writer.writerow(r.to_csv_row())
+            for r in kept:
+                writer.writerow(r.to_csv_row())
 
     def write_shows_to_csv(self):
         tvShows = set()
@@ -121,8 +140,7 @@ class Graph:
             writer = csv.writer(f)
             writer.writerow(['title'])
             for title in sorted(getTitles()):
-                if title not in TV_SHOW_DENYLIST:
-                    writer.writerow([title])
+                writer.writerow([title])
 
 
 def main():

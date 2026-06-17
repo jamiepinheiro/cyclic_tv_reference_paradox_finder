@@ -1,6 +1,6 @@
 import csv
 from constants import REFERENCES_CSV
-from gen_references import Reference, Graph
+from gen_output_data import Reference, Graph
 
 
 def main():

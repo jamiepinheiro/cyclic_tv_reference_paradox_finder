@@ -1,0 +1,6 @@
+# Node
+web_app/node_modules/
+web_app/build/
+
+# Scratch: copy of tv_shows.csv used as input to get_subtitles_from_list.py
+web_app/public_orig_tv_shows.csv
