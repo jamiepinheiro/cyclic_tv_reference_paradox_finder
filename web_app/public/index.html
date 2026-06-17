@@ -2,6 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!--
+      The canonical home of this app is the exe.dev VM, exposed at
+      https://cyclic-tv-reference-paradox-finder.jamiepinheiro.com/.
+      The old GitHub Pages URL (jamiepinheiro.github.io/cyclic_tv_reference_paradox_finder)
+      is serialized in many places, so forward it to the canonical domain.
+      Only redirects when actually served from github.io, so local dev and the
+      custom domain are unaffected.
+    -->
+    <script>
+      (function () {
+        if (/github\.io$/i.test(window.location.hostname)) {
+          window.location.replace(
+            "https://cyclic-tv-reference-paradox-finder.jamiepinheiro.com/" +
+              window.location.search +
+              window.location.hash
+          );
+        }
+      })();
+    </script>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />

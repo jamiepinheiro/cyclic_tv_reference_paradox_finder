@@ -76,6 +76,31 @@ PORT=8000 HOST=0.0.0.0 DANGEROUSLY_DISABLE_HOST_CHECK=true WDS_SOCKET_PORT=0 BRO
 
 - Node via nodeenv (`~/node`, symlinked into `~/.local/bin`).
 - Deploys to GitHub Pages (`npm run deploy`); see `homepage` in package.json.
+
+### RULE: rebuild + redeploy the frontend after web_app changes
+
+Whenever you change anything under `web_app/` (components, CSS, public assets),
+rebuild and redeploy so the live site stays in sync:
+
+```bash
+cd web_app
+npm run build      # also run automatically by predeploy
+npm run deploy     # gh-pages -d build  -> publishes to the gh-pages branch
+```
+
+Then sanity-check the canonical URL
+(`https://cyclic-tv-reference-paradox-finder.jamiepinheiro.com/`).
+
+### Hosting / URLs
+
+- **Canonical:** the app runs on this exe.dev VM (port 8000) and is served at
+  the custom domain
+  `https://cyclic-tv-reference-paradox-finder.jamiepinheiro.com/`.
+- **GitHub Pages** (`jamiepinheiro.github.io/cyclic_tv_reference_paradox_finder`)
+  is the legacy URL, serialized in many places. `public/index.html` contains a
+  host-conditional script that redirects github.io visitors to the canonical
+  custom domain. The redirect only fires on github.io, so local dev and the
+  custom domain are unaffected. Keep that redirect intact when editing the HTML.
 - **Mobile-friendly** (added): the app used to hard-block phones via `is-mobile`;
   removed. CSS `@media (max-width:768px)` stacks the graph on top and the side
   panel below; `GraphVisual.tsx` sizes the canvas to its container via a
