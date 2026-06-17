@@ -12,9 +12,23 @@
     -->
     <script>
       (function () {
-        if (/github\.io$/i.test(window.location.hostname)) {
+        var host = window.location.hostname;
+        var path = window.location.pathname;
+        var target = "cyclic-tv-reference-paradox-finder.jamiepinheiro.com";
+        // Never redirect the canonical host itself (avoids a loop).
+        if (host === target) return;
+        // Forward the legacy locations:
+        //  - any *.github.io page
+        //  - jamiepinheiro.com/cyclic_tv_reference_paradox_finder/...
+        var fromGithubIo = /github\.io$/i.test(host);
+        var fromApexPath =
+          /(^|\.)jamiepinheiro\.com$/i.test(host) &&
+          /^\/cyclic_tv_reference_paradox_finder(\/|$)/i.test(path);
+        if (fromGithubIo || fromApexPath) {
           window.location.replace(
-            "https://cyclic-tv-reference-paradox-finder.jamiepinheiro.com/" +
+            "https://" +
+              target +
+              "/" +
               window.location.search +
               window.location.hash
           );
